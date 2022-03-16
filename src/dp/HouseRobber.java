@@ -1,4 +1,25 @@
 class Solution {
+    Integer[] memo;
+
+    public int rob(int[] nums) {
+        memo = new Integer[nums.length];
+        return dfs(nums, 0);
+    }
+
+    private int dfs(int[] nums, int start) {
+        if (start >= nums.length) {
+            return 0;
+        }
+        if (memo[start] != null) {
+            return memo[start];
+        }
+
+        memo[start] = Math.max(nums[start] + dfs(nums, start + 2), dfs(nums, start + 1));
+        return memo[start];
+    }
+}
+
+class Solution {
     public int rob(int[] nums) {
         int max = nums[0];
         for (int i = 0; i < nums.length; i++) {
