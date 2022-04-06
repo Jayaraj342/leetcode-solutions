@@ -1,19 +1,21 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         List<Integer>[] adj = new List[numCourses];
-        for (int i : IntStream.range(0, numCourses).toArray()) {
+        for (int i = 0; i < numCourses; i++) {
             adj[i] = new ArrayList<>();
         }
-        for(int[] edge : prerequisites) {
-            adj[edge[0]].add(edge[1]);
+
+        for (int[] pr : prerequisites) {
+            adj[pr[0]].add(pr[1]);
         }
 
         Set<Integer> visited = new HashSet<>();
-        for (int i : IntStream.range(0, numCourses).toArray()) {
-            if(!dfs(adj, i, visited)) {
+        for (int i = 0; i < numCourses; i++) {
+            if (!dfs(adj, i, visited)) {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -26,15 +28,14 @@ class Solution {
         }
 
         visited.add(v);
-
-        for (int nei : adj[v]) {
-            if (!dfs(adj, nei, visited)) {
+        for (int pr : adj[v]) {
+            if (!dfs(adj, pr, visited)) {
                 return false;
             }
         }
         visited.remove(v);
-        adj[v] = new ArrayList<>();
 
+        adj[v] = new ArrayList<>();
         return true;
     }
 }
