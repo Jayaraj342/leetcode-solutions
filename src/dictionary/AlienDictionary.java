@@ -31,7 +31,6 @@ public class Solution {
             if (dfs(c, sb, adj, visited)) {
                 return "";
             }
-            ;
         }
 
         return sb.reverse().toString();
