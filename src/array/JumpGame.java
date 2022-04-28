@@ -10,6 +10,7 @@ class Solution {
     }
 }
 
+//Jump game 2
 class Solution {
     public int jump(int[] nums) {
         int result = 0;
