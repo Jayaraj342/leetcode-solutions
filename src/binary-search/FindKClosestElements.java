@@ -54,6 +54,7 @@ class Solution {
             int leftDiff = x - arr[mid];
             int rightDiff = arr[mid + k] - x;
 
+
             if (leftDiff > rightDiff) {
                 l = mid + 1;
             } else {
