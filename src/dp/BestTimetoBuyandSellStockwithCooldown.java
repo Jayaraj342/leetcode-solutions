@@ -29,3 +29,30 @@ class Solution {
         return max;
     }
 }
+
+class Solution {
+    Map<String, Integer> memo = new HashMap<>();
+
+    public int maxProfit(int[] prices) {
+        return dfs(prices, 0, true);
+    }
+
+    private int dfs(int[] prices, int idx, boolean isBuy) {
+        if (idx >= prices.length) {
+            return 0;
+        }
+        String key = idx + "," + isBuy;
+        if (memo.containsKey(key)) {
+            return memo.get(key);
+        }
+        int max;
+        if (isBuy) {
+            max = Math.max(-prices[idx] + dfs(prices, idx + 1, !isBuy), dfs(prices, idx + 1, isBuy));
+        } else {
+            max = Math.max(prices[idx] + dfs(prices, idx + 2, !isBuy), dfs(prices, idx + 1, isBuy));
+        }
+
+        memo.put(key, max);
+        return max;
+    }
+}
