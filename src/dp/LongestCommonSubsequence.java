@@ -1,26 +1,28 @@
 class Solution {
-    Map<String, Integer> memo = new HashMap<>();
+    Integer[][] memo;
 
     public int longestCommonSubsequence(String text1, String text2) {
+        memo = new Integer[text1.length()][text2.length()];
         return dfs(text1, text2, 0, 0);
     }
 
     private int dfs(String text1, String text2, int i, int j) {
-        String currentKey = i + "," + j;
-        if (memo.containsKey(currentKey)) {
-            return memo.get(currentKey);
-        }
-        if (i < text1.length() && j < text2.length()) {
-            if (text1.charAt(i) == text2.charAt(j)) {
-                memo.put(currentKey, 1 + dfs(text1, text2, i + 1, j + 1));
-                return memo.get(currentKey);
-            } else {
-                memo.put(currentKey, 1 + Math.max(dfs(text1, text2, i, j + 1), dfs(text1, text2, i + 1, j)));
-                return memo.get(currentKey);
-            }
+        if (i == text1.length() || j == text2.length()) {
+            return 0;
         }
 
-        return 0;
+        if (memo[i][j] != null) {
+            return memo[i][j];
+        }
+
+        int res;
+        if (text1.charAt(i) == text2.charAt(j)) {
+            res = 1 + dfs(text1, text2, i + 1, j + 1);
+        } else {
+            res = Math.max(dfs(text1, text2, i + 1, j), dfs(text1, text2, i, j + 1));
+        }
+        memo[i][j] = res;
+        return res;
     }
 }
 
