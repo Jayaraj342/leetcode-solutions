@@ -1,39 +1,40 @@
 class Solution {
     public int maximalRectangle(char[][] matrix) {
         int m = matrix.length;
-        if (m == 0) {
-            return 0;
-        }
         int n = matrix[0].length;
+        int[] heights = new int[n];
 
         int max = 0;
-        int[] arr = new int[n];
-        for (char[] chars : matrix) {
+        for (char[] row : matrix) {
             for (int j = 0; j < n; j++) {
-                if (chars[j] == '0') {
-                    arr[j] = 0;
+                if (row[j] == '0') {
+                    heights[j] = 0;
                 } else {
-                    arr[j] = arr[j] + 1;
+                    heights[j] += 1;
                 }
             }
-
-            max = Math.max(max, maximalRectangeInArray(arr, n));
+            max = Math.max(max, maxRectangleInAnArray(heights, n));
         }
 
         return max;
     }
 
-    private int maximalRectangeInArray(int[] arr, int n) {
-        Deque<Integer> stack = new ArrayDeque<>();
-
+    private int maxRectangleInAnArray(int[] heights, int n) {
+        Stack<List<Integer>> stack = new Stack<>();
         int max = 0;
-        for (int i = 0; i <= n; i++) {
-            while (!stack.isEmpty() && (i == n || arr[i] < arr[stack.peek()])) {
-                int h = arr[stack.pop()];
-                int left = stack.isEmpty() ? -1 : stack.peek();
-                max = Math.max(max, h * (i - left - 1));
+        for (int i = 0; i < n; i++) {
+            int tempI = i;
+            while (!stack.isEmpty() && stack.peek().get(0) > heights[i]) {
+                List<Integer> lastMax = stack.pop();
+                max = Math.max(max, lastMax.get(0) * (i - lastMax.get(1)));
+                tempI = lastMax.get(1);
             }
-            stack.push(i);
+            // [height, index]
+            stack.add(List.of(heights[i], tempI));
+        }
+
+        for (List<Integer> monoIncr : stack) {
+            max = Math.max(max, monoIncr.get(0) * (heights.length - monoIncr.get(1)));
         }
 
         return max;
