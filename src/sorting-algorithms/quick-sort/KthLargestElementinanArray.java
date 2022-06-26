@@ -1,3 +1,4 @@
+// O(n.log(k))
 class Solution {
     public int findKthLargest(int[] nums, int k) {
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
@@ -12,6 +13,7 @@ class Solution {
     }
 }
 
+// Avg-O(n) and max O(n^2) for quick select
 class Solution {
     public int findKthLargest(int[] nums, int k) {
         return quickSelect(nums, 0, nums.length - 1, nums.length - k);
