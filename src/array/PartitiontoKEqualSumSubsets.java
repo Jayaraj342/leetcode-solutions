@@ -1,3 +1,4 @@
+// O(k.2^n)
 class Solution {
     public boolean canPartitionKSubsets(int[] nums, int k) {
         int sum = 0;

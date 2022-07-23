@@ -4,9 +4,12 @@ class Solution {
         int i = 0;
         while (i <= twoIndex) {
             if (nums[i] == 0) {
-                swap(nums, zeroIndex++, i++);
+                swap(nums, zeroIndex, i);
+                zeroIndex++;
+                i++;
             } else if (nums[i] == 2) {
-                swap(nums, twoIndex--, i);
+                swap(nums, twoIndex, i);
+                twoIndex--;
             } else {
                 i++;
             }

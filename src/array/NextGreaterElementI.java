@@ -1,3 +1,4 @@
+// https://www.youtube.com/watch?v=68a1Dc_qVq4&ab_channel=NeetCode
 class Solution {
     public int[] nextGreaterElement(int[] nums1, int[] nums2) {
         Map<Integer, Integer> nge2 = new HashMap<>();

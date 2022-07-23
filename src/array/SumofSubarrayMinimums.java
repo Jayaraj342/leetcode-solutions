@@ -8,7 +8,7 @@ class Solution {
 
         long sum = 0;
         for (int i = 0; i < n; i++) {
-            while (stack.peek() != -1 && arr[stack.peek()] > arr[i]) {
+            while (stack.peek() != -1 && arr[i] < arr[stack.peek()]) {
                 int lastIndex = stack.pop();
                 sum = (sum + (long) arr[lastIndex] * (i - lastIndex) * (lastIndex - stack.peek())) % MOD;
             }
