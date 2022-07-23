@@ -20,7 +20,7 @@ public class Solution {
                     break;
                 }
                 j++;
-                if (j == minLen && word2.length() > word1.length()) {
+                if (j == minLen && word1.length() > word2.length()) {
                     return "";
                 }
             }
@@ -28,7 +28,10 @@ public class Solution {
 
         StringBuilder sb = new StringBuilder();
         Map<Character, Boolean> visited = new HashMap<>();
-        for (char c : adj.keySet()) {
+
+        List<Character> keySet = new ArrayList<>(adj.keySet());
+        keySet.sort(Collections.reverseOrder());
+        for (char c : keySet) {
             if (dfs(c, sb, adj, visited)) {
                 return "";
             }
@@ -53,3 +56,10 @@ public class Solution {
         return false;
     }
 }
+
+// ex:
+// Input: ["wrt","wrf","er","ett","rftt"]
+// Output: "wertf
+
+// adj = {t -> [f], w -> [e], r -> [t], e -> [r]}
+// backtrack because many chars can have dependency on each other, but in a loop they can't be dependent
