@@ -48,3 +48,34 @@ class Solution {
         return rob2;
     }
 }
+
+// House Robber 11
+class Solution {
+    Integer[] memo;
+
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if(n == 1) {
+            return nums[0];
+        }
+        memo = new Integer[n];
+        int withLast = dfs(nums, 1, n);
+        
+        memo = new Integer[n];
+        int withFirst = dfs(nums, 0, n - 1);
+        
+        return Math.max(withLast, withFirst);
+    }
+
+    private int dfs(int[] nums, int start, int n) {
+        if (start >= n) {
+            return 0;
+        }
+        if (memo[start] != null) {
+            return memo[start];
+        }
+
+        memo[start] = Math.max(nums[start] + dfs(nums, start + 2, n), dfs(nums, start + 1, n));
+        return memo[start];
+    }
+}
