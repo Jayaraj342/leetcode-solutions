@@ -27,3 +27,8 @@ group by SupplierID, CategoryID
 having count(*)>1
 ) p2
 on p1.SupplierID=p2.SupplierID and p1.CategoryID=p2.CategoryID;
+
+-- reverse 2 columns at a time
+update customers set city = 'Bengaluru'
+update customers set city = 'Mysore' where customerid < 46
+update customers set  city = (case when city = 'Mysore' then 'Bengaluru' when city = 'Bengaluru' then 'Mysore' end)
