@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
 // for deep copy, should create new array in clone method and assign
-class ObjectClone {
+class CloneObject {
     public static void main(String[] args) {
         var obj1 = new Test(new int[] {1, 2, 3});
         obj1.val = 10;
