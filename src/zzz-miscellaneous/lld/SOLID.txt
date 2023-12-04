@@ -1,0 +1,76 @@
+// https://www.baeldung.com/solid-principles
+// https://github.com/eugenp/tutorials/tree/master/patterns-modules/solid/src/main/java/com/baeldung
+
+S - Single responsibility
+A class should have single responsibility, it should only have one reason to change
+
+class Book {
+    String name;
+    String Author;
+    String txt;
+}
+~ BookController
+~ BookService
+~ BookDao
+
+class BookDao {
+    saveToDB(){};
+}
+
+---------------
+O - Open/Closed
+Classes should be open for extension but closed for modification.
+In doing so, we stop ourselves from modifying existing code and causing potential new bugs
+
+class InvoiceDao {
+    saveToDB(){};
+}
+
+new req to save to a File:
+can't just add to same class as it might through up errors or prone to bugs
+soln:
+
+interface InvoiceDao {save();}
+
+class DBInvoiceDao {@Override save(){};}
+class FileInvoiceDao {@Override save(){};}
+
+so in future if there's new requirement to persistence like mongoDBSave, we can extend existing interface
+
+----------------------------------------------------------------------------------------------------------
+L - Liskov Substitution
+If class A is a subtype of class B, we should be able to replace B with A without disrupting the behavior of our program
+subclass should extend the capability of parent class not narrow it down
+
+interface Vehicle {turnOnEngine(); acceleration();}
+class Bike extends Vehicle {...} => all good
+class Bicycle extends Vehicle {turnOnEngine() {throw exception();} ...} => narrowing the capability
+
+soln: segregate Vehicle to EngineLessVehicle, EnginedVehicle
+
+-------------------------------------------------------------
+I - Interface Segregation
+Interfaces should be segregated/split such that client need not implement unnecessary functions
+
+interface RestaurantEmployee {washDish(); cook(); serve();}
+class Waiter implements RestaurantEmployee {takeOrder(){}; ...} => should implement all methods, not necessary
+
+soln:
+Interface WaiterEmployee {serve();}
+Interface CookEmployee {cook(); washDish();}
+class Waiter implements WaiterEmployee {takeOrder(){}; serve(){};}
+
+------------------------------------------------------------------
+D - Dependency Inversion
+refers to the decoupling - instead of high-level modules depending on low-level modules, both will depend on abstractions
+i.e. class should depend on interfaces rather than concrete classes
+
+class Laptop {new WiredKeyboard(); new WiredMouse();}
+
+now can't add WirelessKeyboard..
+soln:
+interface KeyBoard {}
+class WiredKeyboard implements Keyboard {}
+class WirelessKeyboard implements Keyboard {}
+
+class Laptop {(Keyboard keyboard, Mouse mouse) {}}

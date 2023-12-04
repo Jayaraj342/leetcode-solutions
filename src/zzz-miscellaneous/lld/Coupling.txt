@@ -1,0 +1,110 @@
+// https://www.baeldung.com/java-coupling-classes-tight-loose
+// https://github.com/eugenp/tutorials/tree/master/patterns-modules/coupling/src/main/java/com/baeldung
+
+Degree to which classes within our system depend on each other
+
+=> When a group of classes is highly dependent on each other, or we’ve classes that assume a lot of responsibilities is called tight coupling
+We’re designing a metadata collector application. This application collects metadata for us.
+It fetches metadata in XML format, then exports fetched metadata to a CSV file(all classes in one class)
+1st part of soln: use Single responsibility principle
+
+public class XMLFetch {
+    public List<Object> fetchMetadata() {
+        List<Object> metadata = new ArrayList<>();
+        // Do some stuff
+        return metadata;
+    }
+}
+public class CSVExport {
+    public File export(List<Object> metadata) {
+        System.out.println("Exporting data...");
+        // Export Metadata
+        File outputCSV = null;
+        return outputCSV;
+    }
+}
+
+init:
+public class MetadataCollector {
+    private XMLFetch xmlFetch = new XMLFetch();
+    private CSVExport csvExport = new CSVExport();
+    public void collectMetadata() {
+        List<Object> metadata = xmlFetch.fetchMetadata();
+        csvExport.export(metadata);
+    }
+}
+more additions:
+public class MetadataCollector {
+    ...
+    private CSVExport csvExport = new CSVExport();
+    private PDFExport pdfExport = new PDFExport();
+    public void collectMetadata(int inputType, int outputType) {
+        if (outputType == 1) {
+            List<Object> metadata = null;
+            if (inputType == 1) {
+                metadata = xmlFetch.fetchMetadata();
+            } else {
+                metadata = jsonFetch.fetchMetadata();
+            }
+            csvExport.export(metadata);
+        } else {
+            List<Object> metadata = null;
+            if (inputType == 1) {
+                metadata = xmlFetch.fetchMetadata();
+            } else {
+                metadata = jsonFetch.fetchMetadata();
+            }
+            pdfExport.export(metadata);
+        }
+    }
+}
+
+=> Loose coupling is when an object gets the object to be used from external sources
+2nd part of soln: Loose coupling is expressed through the Dependency Inversion Principle through Inversion of Control(IoC)
+IoC indicates the way of defining abstractions between our modules
+
+public interface FetchMetadata {
+    List<Object> fetchMetadata();
+}
+public interface ExportMetadata {
+    File export(List<Object> metadata);
+}
+
+public class XMLFetch implements FetchMetadata {
+    @Override
+    public List<Object> fetchMetadata() {
+        List<Object> metadata = new ArrayList<>();
+        // Do some stuff
+        return metadata;
+    }
+}
+
+public class CSVExport implements ExportMetadata {
+    @Override
+    public File export(List<Object> metadata) {
+        System.out.println("Exporting data...");
+        // Export Metadata
+        File outputCSV = null;
+        return outputCSV;
+    }
+}
+
+public class MetadataCollector {
+    private FetchMetadata fetchMetadata;
+    private ExportMetadata exportMetadata;
+    public MetadataCollector(FetchMetadata fetchMetadata, ExportMetadata exportMetadata) {
+        this.fetchMetadata = fetchMetadata;
+        this.exportMetadata = exportMetadata;
+    }
+    public void collectMetadata() {
+        List<Object> metadata = fetchMetadata.fetchMetadata();
+        exportMetadata.export(metadata);
+    }
+}
+
+We can observe two main changes in our code.
+First, the class depends only on abstractions, not concrete types.
+On the other hand, we remove the dependency on low-level modules.
+There is no need to keep any logic related to low-level module creation in the collector module.
+The interaction with those modules is through a standard interface.
+The advantage of this design is that we can add new modules to fetch and export data, and our collector code won’t change.
