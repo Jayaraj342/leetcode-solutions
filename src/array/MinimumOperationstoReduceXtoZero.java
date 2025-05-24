@@ -7,20 +7,19 @@ class Solution {
         }
 
         x = sum - x;
-        int i = 0, j = 0, curr = 0;
-        int max = -1;
-        while (j < nums.length) {
-            curr += nums[j];
-            while (i <= j && curr > x) {
-                curr -= nums[i++];
+        int n = nums.length, curr = 0, res = -1, j = 0;
+        for (int i = 0; i < n; i++) {
+            curr += nums[i];
+            while (j <= i && curr > x) {
+                curr -= nums[j];
+                j++;
             }
             if (curr == x) {
-                max = Math.max(max, j - i + 1);
+                res = Math.max(res, i - j + 1);
             }
-            j++;
         }
 
-        return max == -1 ? -1 : nums.length - max;
+        return res == -1 ? -1 : n - res;
     }
 }
 

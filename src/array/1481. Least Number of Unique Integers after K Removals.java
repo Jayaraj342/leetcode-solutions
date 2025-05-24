@@ -1,3 +1,4 @@
+// O(n)
 class Solution {
     public int findLeastNumOfUniqueInts(int[] arr, int k) {
         Map<Integer, Integer> freqMap = new HashMap<>();
@@ -27,6 +28,7 @@ class Solution {
     }
 }
 
+// O(n.logn)
 class Solution {
     public int findLeastNumOfUniqueInts(int[] arr, int k) {
         Map<Integer, Integer> freq = new HashMap<>();

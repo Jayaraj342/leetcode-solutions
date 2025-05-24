@@ -1,4 +1,4 @@
-// O(log(n-k)*k)
+// O(log(n-k) + k)
 class Solution {
     public List<Integer> findClosestElements(int[] arr, int k, int x) {
         int l = 0, r = arr.length - k;
@@ -8,8 +8,7 @@ class Solution {
 
             int leftDiff = x - arr[mid];
             int rightDiff = arr[mid + k] - x;
-
-
+            
             if (leftDiff > rightDiff) {
                 l = mid + 1;
             } else {
@@ -26,7 +25,7 @@ class Solution {
     }
 }
 
-// O(log(n)*k)
+// O(log(n) + k)
 class Solution {
     public List<Integer> findClosestElements(int[] arr, int k, int x) {
         int idx = 0;
@@ -37,6 +36,7 @@ class Solution {
 
             int currDiff = Math.abs(arr[mid] - x);
             int minDiff = Math.abs(arr[idx] - x);
+            // second condition because we want to return 25 here not 35 arr = [1,25,35,45,50,59], k = 1, x = 30
             if (currDiff < minDiff || (currDiff == minDiff && arr[mid] < arr[idx])) {
                 idx = mid;
             }

@@ -15,6 +15,21 @@ class Solution {
     }
 }
 
+// To find string
+//StringBuilder lcs = new StringBuilder();
+//int i = m, j = n;
+//while (i > 0 && j > 0) {
+//    if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+//        lcs.append(str1.charAt(i - 1));
+//        i--;
+//        j--;
+//    } else if (dp[i - 1][j] > dp[i][j - 1]) {
+//        i--;
+//    } else {
+//        j--;
+//    }
+//}
+
 class Solution {
     Integer[][] memo;
 

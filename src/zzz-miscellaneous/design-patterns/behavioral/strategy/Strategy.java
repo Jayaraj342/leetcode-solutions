@@ -1,7 +1,4 @@
 // https://www.baeldung.com/java-strategy-pattern
-// Essentially, the strategy pattern allows us to change the behavior of an algorithm at runtime
-
-// we basically decouple the strategies and let the client pass it, calling obj decides what to call during runtime
 import java.util.*;
 
 class Solution {
@@ -15,11 +12,6 @@ class Solution {
         return list.stream().filter(strategy).mapToInt(e -> e).sum();
     }
 }
-
-// so we neither implement 2 logics in same class & increase complexity, nor just 2 classes implement logic
-// If we create 2 classes that implement their required functionality, there might be a case where 2 classes need same functionality
-// when child object is created, it just passes the strategy that it wants to use through parent constructor
-// https://www.youtube.com/watch?v=u8DttUrXtEw&list=PL6W8uoQQ2c61X_9e6Net0WdYZidm7zooW&index=4&pp=iAQB
 
 // ----------------------------------------------------------------------------------------
 

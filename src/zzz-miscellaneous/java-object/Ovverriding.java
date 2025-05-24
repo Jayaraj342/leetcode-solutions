@@ -38,7 +38,7 @@ class Derived extends Base {
         System.out.println("Derived fun");
     }
 
-    // compile error
+    // compile error : both methods should be public
     public static void main(String[] args) {
         Base obj = new Derived();
         obj.fun();
@@ -46,7 +46,7 @@ class Derived extends Base {
 }
 
 // -----------------------------------------------------------------------------------------------
-
+// conflict complile time error
 class Solution implements Parent, Child{
     public static void main(String[] args) {
         new Solution().show();
@@ -73,7 +73,7 @@ interface Child {
 }
 
 // ------------------------------------------------------------------------------------------------
-// Covariant overriding
+// Covariant overriding - works..
 
 class Parent {
     public Parent getObj() {

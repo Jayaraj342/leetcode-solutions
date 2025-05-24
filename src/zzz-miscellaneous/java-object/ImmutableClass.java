@@ -1,3 +1,11 @@
+// objects cannot be modified after creation
+
+// All fields must be private and final (to prevent modification).
+// No setter methods (so values cannot be changed after creation).
+// Class should be final (to prevent subclassing).
+// Use deep copies for mutable fields (to prevent external modification).
+// Return new objects instead of modifying fields
+
 final class FinalClassExample {
 
     private final int id;

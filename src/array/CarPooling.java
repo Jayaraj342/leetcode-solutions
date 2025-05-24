@@ -22,16 +22,14 @@ class Solution {
 //O(n.logn) for sorting keys
 class Solution {
     public boolean carPooling(int[][] trips, int capacity) {
-        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> map = new TreeMap<>();
         for (int[] trip : trips) {
             map.put(trip[1], map.getOrDefault(trip[1], 0) + trip[0]);
             map.put(trip[2], map.getOrDefault(trip[2], 0) - trip[0]);
         }
 
         int netPassengers = 0;
-        List<Integer> srcDstPointsSorted = new ArrayList<>(map.keySet());
-        Collections.sort(srcDstPointsSorted);
-        for (int point : srcDstPointsSorted) {
+        for (int point : map.keySet()) {
             netPassengers += map.get(point);
             if (netPassengers > capacity) {
                 return false;

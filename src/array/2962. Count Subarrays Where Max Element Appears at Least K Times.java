@@ -5,18 +5,18 @@ class Solution {
             max = Math.max(max, num);
         }
 
-        int prevMaxIdx = -1, cnt = 0, j = 0;
+        int cnt = 0, i = 0;
         long res = 0;
-        for (int i = 0; i < n; i++) {
-            cnt += nums[i] == max ? 1 : 0;
-            while (cnt > k || (j <= i && nums[j] != max)) {
-                if (nums[j] == max) {
+        for (int j = 0; j < n; j++) {
+            cnt += nums[j] == max ? 1 : 0;
+            while (cnt > k || (i <= j && nums[i] != max)) {
+                if (nums[i] == max) {
                     cnt--;
                 }
-                j++;
+                i++;
             }
             if (cnt == k) {
-                res += j + 1;
+                res += i + 1;
             }
         }
 

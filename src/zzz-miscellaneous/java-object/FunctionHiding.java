@@ -1,3 +1,5 @@
+// If static method has same signature in child (instead of overriding - hiding is observed)
+// method call depends on reference and not object
 class Parent {
     static void show() {
         System.out.println("Parent's show()");

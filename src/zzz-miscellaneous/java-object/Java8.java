@@ -1,3 +1,29 @@
+// Abstract vs interface
+interface Area {
+    double getArea(int param);
+
+    default int defaultArea(int a) {
+        return a * a;
+    }
+
+    static int getPerimeter(int param) {
+        return param * 4;
+    }
+}
+
+abstract class Area2 {
+    abstract double getArea(int param);
+
+    // default methods are because all classes need not implement them - else abstract method's will have to be implemented by all classes
+    int defaultArea(int a) {
+        return a * a;
+    }
+
+    static int getPerimeter(int param) {
+        return param * 4;
+    }
+}
+
 //Only one abstract method
 @FunctionalInterface
 interface Area {
