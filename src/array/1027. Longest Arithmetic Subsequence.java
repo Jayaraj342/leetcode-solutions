@@ -1,3 +1,4 @@
+// TC : O(n^2) SC : O(n^2)
 class Solution {
     public int longestArithSeqLength(int[] nums) {
         int n = nums.length, max = 2;

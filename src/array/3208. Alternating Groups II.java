@@ -19,6 +19,28 @@ class Solution {
 }
 
 class Solution {
+    public int numberOfAlternatingGroups(int[] colors, int k) {
+        int n = colors.length;
+
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1);
+        int res = 0;
+        for (int i = 1; i < n + k - 1; i++) {
+            int idx = i % n, idxMinusOne = (i - 1 + n) % n;
+            if (colors[idx] != colors[idxMinusOne]) {
+                dp[idx] = dp[idxMinusOne] + 1;
+            }
+
+            if (dp[idx] >= k) {
+                res++;
+            }
+        }
+
+        return res;
+    }
+}
+
+class Solution {
     int cnt;
 
     public int numberOfAlternatingGroups(int[] colors, int k) {

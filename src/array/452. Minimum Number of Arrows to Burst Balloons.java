@@ -11,7 +11,6 @@ class Solution {
             int[] curr = points[i];
             if (curr[0] <= prev[1]) {
                 res--;
-                prev[0] = curr[0];
                 prev[1] = Math.min(prev[1], curr[1]);
             } else {
                 prev = curr;

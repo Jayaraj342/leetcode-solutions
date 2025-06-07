@@ -1,4 +1,5 @@
 class Solution {
+    // [3, 4, 5, 1, 2, 3, 4]
     public boolean check(int[] nums) {
         int dipCount = 0, prev = -1;
         for (int num : nums) {

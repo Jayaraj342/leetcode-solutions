@@ -1,41 +1,43 @@
 class Solution {
-    //2147483476
     public int nextGreaterElement(int n) {
-        char[] arr = String.valueOf(n).toCharArray();
-        int size = arr.length;
-        int i = size - 2;
-        while (i >= 0) {
-            if (arr[i] < arr[i + 1]) {
-                break;
-            }
+        char[] digits = String.valueOf(n).toCharArray();
+        int i = digits.length - 2;
+
+        // Find the first decreasing digit from the end
+        while (i >= 0 && digits[i] >= digits[i + 1]) {
             i--;
         }
-        if (i == -1) {
+
+        // If no such digit is found, no greater number is possible
+        if (i < 0) {
             return -1;
         }
 
-        int k = size - 1;
-        while (k >= 0) {
-            if (arr[k] > arr[i]) {
-                break;
-            }
-            k--;
+        // Find the smallest digit greater than digits[i] to the right
+        int j = digits.length - 1;
+        while (digits[j] <= digits[i]) {
+            j--;
         }
 
+        // Swap them
+        swap(digits, i, j);
+
+        // Reverse the suffix
+        reverse(digits, i + 1, digits.length - 1);
+
+        long result = Long.parseLong(new String(digits));
+        return result > Integer.MAX_VALUE ? -1 : (int) result;
+    }
+
+    private void swap(char[] arr, int i, int j) {
         char temp = arr[i];
-        arr[i] = arr[k];
-        arr[k] = temp;
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
 
-        StringBuilder ans = new StringBuilder();
-        for (int j = 0; j < i + 1; j++) {
-            ans.append(arr[j]);
+    private void reverse(char[] arr, int start, int end) {
+        while (start < end) {
+            swap(arr, start++, end--);
         }
-        for (int j = size - 1; j >= i + 1; j--) {
-            ans.append(arr[j]);
-        }
-
-        long ans_ = Long.parseLong(ans.toString());
-
-        return (ans_ > Integer.MAX_VALUE) ? -1 : (int)ans_;
     }
 }

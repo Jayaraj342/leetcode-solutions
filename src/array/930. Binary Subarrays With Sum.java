@@ -8,14 +8,14 @@ class Solution {
         if (goal < 0) {
             return 0;
         }
-        int i = 0, sum = 0, res = 0;
-        for (int j = 0; j < nums.length; j++) {
-            sum += nums[j];
+        int lo = 0, sum = 0, res = 0;
+        for (int hi = 0; hi < nums.length; hi++) {
+            sum += nums[hi];
             while (sum > goal) {
-                sum -= nums[i];
-                i++;
+                sum -= nums[lo];
+                lo++;
             }
-            res += (j - i + 1);
+            res += (hi - lo + 1);
         }
 
         return res;

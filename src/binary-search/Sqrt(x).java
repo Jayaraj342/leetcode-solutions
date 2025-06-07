@@ -11,13 +11,10 @@ class Solution {
             long midSq = (long) mid * mid;
 
             if (midSq <= x) {
+                res = mid;
                 lo = mid + 1;
             } else {
                 hi = mid - 1;
-            }
-
-            if (midSq <= x) {
-                res = mid;
             }
         }
 

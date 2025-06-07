@@ -11,7 +11,7 @@ class Solution {
         }
 
         // If nums2 has an odd length, each element of nums1 contributes to the final XOR result.
-        if (n % 2 != 0) {
+        if (n % 2 == 1) {
             for (int num : nums1) {
                 res ^= num;
             }

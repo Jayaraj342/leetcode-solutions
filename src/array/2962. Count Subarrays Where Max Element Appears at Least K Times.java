@@ -1,4 +1,5 @@
 class Solution {
+    // stop and count at exact k times
     public long countSubarrays(int[] nums, int k) {
         int n = nums.length, max = 0;
         for (int num : nums) {
