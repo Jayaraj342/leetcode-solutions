@@ -1,3 +1,61 @@
+// topological sort using BFS (Kahn's algorithm)
+class Solution {
+    public String alienOrder(String[] words) {
+        int len = words.length;
+        // get dependencies and count for all chars
+        Map<Character, Set<Character>> dependency = new HashMap<>();
+        Map<Character, Integer> count = new HashMap<>();
+        // init all chars
+        for (String word : words) {
+            for (char c : word.toCharArray()) {
+                count.put(c, 0);
+                dependency.put(c, new HashSet<>());
+            }
+        }
+        for (int i = 0; i < len - 1; i++) {
+            char[] first = words[i].toCharArray(), second = words[i + 1].toCharArray();
+            int m = first.length, n = second.length;
+            int k = Math.min(m, n);
+
+            if (m > n && words[i].startsWith(words[i + 1])) {//[abc, ab]
+                return "";
+            }
+
+            for (int c = 0; c < k; c++) {
+                if (first[c] != second[c]) {
+                    if (!dependency.get(first[c]).contains(second[c])) {// add only if that edge in not present
+                        dependency.get(first[c]).add(second[c]);
+                        count.put(second[c], count.get(second[c]) + 1);
+                    }
+                    break;
+                }
+            }
+        }
+
+        // do BFS and get alienOrder
+        Queue<Character> queue = new PriorityQueue<>();
+        for (char c : count.keySet()) {
+            if (count.get(c) == 0) {
+                queue.add(c);
+            }
+        }
+
+        String res = "";
+        while (!queue.isEmpty()) {
+            char last = queue.remove();
+            res += last;
+            for (char nei : dependency.get(last)) {
+                count.put(nei, count.get(nei) - 1);
+                if (count.get(nei) == 0) {
+                    queue.add(nei);
+                }
+            }
+        }
+
+        return res.length() == count.size() ? res : "";// if cycle is present then whole string won't be printed
+    }
+}
+
 //topological sort
 public class Solution {
     public String alienOrder(String[] words) {

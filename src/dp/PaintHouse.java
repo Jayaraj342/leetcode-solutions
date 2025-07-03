@@ -1,3 +1,18 @@
+public class Solution {
+    public int minCost(int[][] costs) {
+        int[] dp = new int[3];
+        for (int[] cost : costs) {
+            int dp0 = cost[0] + Math.min(dp[1], dp[2]);
+            int dp1 = cost[1] + Math.min(dp[0], dp[2]);
+            int dp2 = cost[2] + Math.min(dp[0], dp[1]);
+
+            dp = new int[]{dp0, dp1, dp2};
+        }
+
+        return Math.min(dp[0], Math.min(dp[1], dp[2]));
+    }
+}
+
 // Failing
 public class Solution {
     Map<String, Integer> memo = new HashMap<>();
@@ -24,20 +39,5 @@ public class Solution {
         memo.put(key, minCost);
 
         return minCost;
-    }
-}
-
-public class Solution {
-    public int minCost(int[][] costs) {
-        int[] dp = new int[3];
-        for (int[] cost : costs) {
-            int dp0 = cost[0] + Math.min(dp[1], dp[2]);
-            int dp1 = cost[1] + Math.min(dp[0], dp[2]);
-            int dp2 = cost[2] + Math.min(dp[0], dp[1]);
-
-            dp = new int[]{dp0, dp1, dp2};
-        }
-
-        return Math.min(dp[0], Math.min(dp[1], dp[2]));
     }
 }

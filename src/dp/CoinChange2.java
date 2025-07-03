@@ -1,24 +1,5 @@
 class Solution {
     public int change(int amount, int[] coins) {
-        int n = coins.length;
-        int[][] dp = new int[n + 1][amount + 1];
-
-        for (int i = 0; i <= n; i++) {
-            dp[i][0] = 1;
-        }
-
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j < amount + 1; j++) {
-                dp[i][j] = dp[i - 1][j] + (j - coins[i - 1] >= 0 ? dp[i][j - coins[i - 1]] : 0);
-            }
-        }
-
-        return dp[n][amount];
-    }
-}
-
-class Solution {
-    public int change(int amount, int[] coins) {
         return dfs(amount, 0, coins);
     }
 
@@ -48,6 +29,8 @@ class Solution {
     }
 }
 
+// It correctly gives combinations
+// If loop is reversed then, it gives permutations.. 377. Combination Sum IV
 class Solution {
     public int change(int amount, int[] coins) {
         int[] dp = new int[amount + 1];
@@ -60,5 +43,24 @@ class Solution {
         }
 
         return dp[amount];
+    }
+}
+
+class Solution {
+    public int change(int amount, int[] coins) {
+        int n = coins.length;
+        int[][] dp = new int[n + 1][amount + 1];
+
+        for (int i = 0; i <= n; i++) {
+            dp[i][0] = 1;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j < amount + 1; j++) {
+                dp[i][j] = dp[i - 1][j] + (j - coins[i - 1] >= 0 ? dp[i][j - coins[i - 1]] : 0);
+            }
+        }
+
+        return dp[n][amount];
     }
 }

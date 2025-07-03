@@ -17,6 +17,7 @@
 * for/while loop vs Stream : for/while is faster for smaller/medium data sets because no over head of lambda function creation - large datasets parallelStream will make difference  
 
 ```
+If not overridden
 hashCode() => returns the memory address hash
 equals() => checks reference equality (i.e., obj1 == obj2)
 both have to be overridden

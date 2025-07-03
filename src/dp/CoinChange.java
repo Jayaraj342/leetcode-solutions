@@ -1,3 +1,4 @@
+// TC : O(n * amount) => without memo : O(n^Amount)
 class Solution {
     Map<Integer, Integer> memo = new HashMap<>();
 

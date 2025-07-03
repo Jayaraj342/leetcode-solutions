@@ -28,6 +28,7 @@ class Solution {
     }
 }
 
+// TC : O(n^2) SC : O(n + m)
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
         return dfs(s, new HashSet<>(wordDict), 0);

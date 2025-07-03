@@ -1,23 +1,31 @@
+import java.util.*;
+
 class Solution {
     public int maxPerformance(int n, int[] speed, int[] efficiency, int k) {
-        List<int[]> list = new ArrayList<>();
+        List<int[]> engineers = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            list.add(new int[]{efficiency[i], speed[i]});
+            engineers.add(new int[]{efficiency[i], speed[i]});
         }
-        list.sort((a, b) -> b[0] - a[0]);
 
-        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-        long teamSpeed = 0, max = 0;
-        for (int[] eng : list) {
-            if (minHeap.size() == k) {
-                teamSpeed -= minHeap.remove();
+        // Sort by efficiency in descending order
+        engineers.sort((a, b) -> b[0] - a[0]);
+
+        PriorityQueue<Integer> speedHeap = new PriorityQueue<>(); // min-heap
+        long teamSpeed = 0, maxPerformance = 0;
+
+        for (int[] engineer : engineers) {
+            int currEff = engineer[0], currSpeed = engineer[1];
+
+            speedHeap.add(currSpeed);
+            teamSpeed += currSpeed;
+
+            if (speedHeap.size() > k) {
+                teamSpeed -= speedHeap.remove(); // remove smallest speed
             }
-            teamSpeed += eng[1];
-            minHeap.add(eng[1]);
 
-            max = Math.max(max, teamSpeed * eng[0]);
+            maxPerformance = Math.max(maxPerformance, teamSpeed * currEff);
         }
 
-        return (int) (max % 1000_000_007);
+        return (int) (maxPerformance % 1_000_000_007);
     }
 }

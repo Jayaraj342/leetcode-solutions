@@ -66,3 +66,45 @@ class Solution {
         return (int) res;
     }
 }
+
+class Solution {
+    private static final int MOD = 1_000_000_007;
+    private Map<String, Long> memo;
+
+    private static final int[][] NEXT = {
+            {1},        // a -> e
+            {0, 2},     // e -> a, i
+            {0, 1, 3, 4}, // i -> a, e, o, u
+            {2, 4},     // o -> i, u
+            {0}         // u -> a
+    };
+
+    public int countVowelPermutation(int n) {
+        memo = new HashMap<>();
+
+        long res = 0;
+        for (int i = 0; i < 5; i++) {
+            res = (res + dfs(i, n - 1)) % MOD;
+        }
+        return (int) res;
+    }
+
+    private long dfs(int vowel, int remaining) {
+        if (remaining == 0) {
+            return 1;
+        }
+
+        String key = vowel + "," + remaining;
+        if (memo.containsKey(key)) {
+            return memo.get(key);
+        }
+
+        long cnt = 0;
+        for (int next : NEXT[vowel]) {
+            cnt = (cnt + dfs(next, remaining - 1)) % MOD;
+        }
+
+        memo.put(key, cnt);
+        return cnt;
+    }
+}

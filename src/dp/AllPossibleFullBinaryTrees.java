@@ -5,32 +5,45 @@ class Solution {
         if (memo.containsKey(n)) {
             return memo.get(n);
         }
-        List<TreeNode> list = new ArrayList<>();
 
-        if (n == 0) {
-            return list;
-        }
         if (n == 1) {
-            list.add(new TreeNode(0));
-            return list;
+            return List.of(new TreeNode(0));
         }
 
-        if (n % 2 == 1) {
-            for (int leftNodes = 0; leftNodes < n; leftNodes++) {
-                int rightNodes = n - leftNodes - 1;
+        List<TreeNode> list = new ArrayList<>();
+        for (int leftNodes = 1; leftNodes < n - 1; leftNodes++) {
+            int rightNodes = n - 1 - leftNodes;
 
-                for (TreeNode leftNode : allPossibleFBT(leftNodes)) {
-                    for (TreeNode rightNode : allPossibleFBT(rightNodes)) {
-                        TreeNode root = allPossibleFBT(1).get(0);
-                        root.left = leftNode;
-                        root.right = rightNode;
+            for (TreeNode leftNode : allPossibleFBT(leftNodes)) {
+                for (TreeNode rightNode : allPossibleFBT(rightNodes)) {
+                    TreeNode root = new TreeNode(0);
+                    root.left = leftNode;
+                    root.right = rightNode;
 
-                        list.add(root);
-                    }
+                    list.add(root);
                 }
             }
         }
 
         return list;
+    }
+}
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode() {
+    }
+
+    TreeNode(int val) {
+        this.val = val;
+    }
+
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
     }
 }

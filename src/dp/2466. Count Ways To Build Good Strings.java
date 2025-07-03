@@ -1,3 +1,4 @@
+// O(n)
 class Solution {
     public int countGoodStrings(int low, int high, int zero, int one) {
         int res = 0, MOD = 1000_000_007;
@@ -19,6 +20,7 @@ class Solution {
     }
 }
 
+// O(n)
 class Solution {
     int low, high, zero, one;
     Map<Integer, Integer> memo;

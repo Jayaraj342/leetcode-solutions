@@ -39,7 +39,6 @@ class TwoThreads {
     }
 }
 
-
 class TwoThreads {
     private volatile int cnt = 1;
 

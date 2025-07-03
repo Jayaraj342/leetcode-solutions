@@ -1,3 +1,4 @@
+// V + E, V + E => From adjacency list
 class Solution {
     public boolean validTree(int n, int[][] edges) {
         List<Integer>[] adj = new List[n];

@@ -20,3 +20,34 @@ class Solution {
         return memo.get(key);
     }
 }
+
+class Solution {
+    public long maxAlternatingSum(int[] nums) {
+        long peak = 0;
+        long low = 0;
+        long ans = 0;
+        int i = 0;
+
+        while (i < nums.length) {
+            // find peak
+            while (i < nums.length - 1 && nums[i] <= nums[i + 1]) {
+                i++;
+            }
+            peak += nums[i];
+            ans = Math.max(ans, peak - low);
+            int j = i;
+            // find valley
+            while (j < nums.length - 1 && nums[j] >= nums[j + 1]) {
+                j++;
+            }
+            if (i != j) { // we fell downward
+                low += nums[j];
+                i = j;
+            }
+            ans = Math.max(ans, peak - low);
+            i++;
+        }
+
+        return ans;
+    }
+}

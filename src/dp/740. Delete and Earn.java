@@ -1,3 +1,4 @@
+// TC : O(n.logn), SC : O(n) - can be 1 if freq is not used
 class Solution {
     public int deleteAndEarn(int[] nums) {
         Arrays.sort(nums);
@@ -27,5 +28,43 @@ class Solution {
         }
 
         return val2;
+    }
+}
+
+// TC : O(n.logn), SC : O(n)
+class Solution {
+    int[] memo;
+
+    public int deleteAndEarn(int[] nums) {
+        memo = new int[nums.length];
+
+        Arrays.sort(nums);
+        return deleteAndEarn(nums, 0);
+    }
+
+    private int deleteAndEarn(int[] nums, int idx) {
+        if (idx == nums.length) {
+            return 0;
+        }
+
+        if (memo[idx] == 0) {
+            int with = nums[idx];
+            int skip = idx + 1;
+            // skip same nums
+            while (skip < nums.length && nums[skip] == nums[idx]) {
+                with += nums[idx];
+                skip++;
+            }
+            // skip next nums
+            while (skip < nums.length && nums[skip] == nums[idx] + 1) {
+                skip++;
+            }
+
+            with += deleteAndEarn(nums, skip);
+
+            memo[idx] = Math.max(with, deleteAndEarn(nums, idx + 1));
+        }
+
+        return memo[idx];
     }
 }

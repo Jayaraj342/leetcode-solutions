@@ -27,3 +27,10 @@ class Solution {
         return memo[i][j];
     }
 }
+
+// normally first user always wins
+class Solution {
+    public boolean stoneGame(int[] piles) {
+        return true;
+    }
+}

@@ -134,7 +134,7 @@ In Spring	You don’t write servlets directly — Spring’s DispatcherServlet h
 
 `StereoType Annotations`: Controller, Service, Repository - inherited from Component - From which Beans will be created  
 
-`Dependency Injection`: Achieve loose coupling - Springframework injects dependency (Autowired or Constructor or Setter - Constructor Mandatory Bean, while Setter Bean is not mandatory)  
+`Dependency Injection`: Achieve loose coupling (with interfaces) - Springframework injects dependency (Autowired or Constructor or Setter - Constructor Mandatory Bean, while Setter Bean is not mandatory)  
 (Runtime polymorphism achieves partial loose coupling - as Interface is used in reference)  
 
 `Circular dependency`: Use setter injection and Lazy init for constructor - no more errors...  

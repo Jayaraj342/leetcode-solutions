@@ -1,3 +1,6 @@
+// Prims - min spanning tree
+// V^2 = Edges count
+// TC : O(V^2 * log(V)), SC : O(V^2)
 class Solution {
     public int minCostConnectPoints(int[][] points) {
         int n = points.length;

@@ -15,6 +15,7 @@ class Solution {
     }
 }
 
+// O(n^2)
 class Solution {
     Map<Integer, Integer> memo = new HashMap<>();
 

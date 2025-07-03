@@ -1,3 +1,4 @@
+// 2^n or 4^n in worst case - will be way less because of pruning/early exit
 class Solution {
     public boolean makesquare(int[] matchsticks) {
         Arrays.sort(matchsticks);

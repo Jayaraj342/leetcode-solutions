@@ -34,10 +34,10 @@ class Solution {
     }
 
     private int dfs(String word1, String word2, int i, int j) {
-        if (i == word1.length()) {
+        if (i == word1.length()) {// add to word1 to make word2
             return word2.length() - j;
         }
-        if (j == word2.length()) {
+        if (j == word2.length()) {// remove from word1 to make word2
             return word1.length() - i;
         }
 
