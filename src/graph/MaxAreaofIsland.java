@@ -1,3 +1,4 @@
+// m * n, m * n
 class Solution {
     public int maxAreaOfIsland(int[][] grid) {
         int max = 0;

@@ -1,3 +1,4 @@
+// V * (V + E), V + E
 class Solution {
     public int magnificentSets(int n, int[][] edges) {
         // create adjacency list

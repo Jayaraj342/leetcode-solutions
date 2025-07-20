@@ -1,3 +1,4 @@
+// N * L, N + L => N
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         Set<String> wordSet = new HashSet<>(wordList);
@@ -19,7 +20,7 @@ class Solution {
                         String newTransform = new String(currArr);
                         if (wordSet.contains(newTransform)) {
                             tempTransformed.add(newTransform);
-                            wordSet.remove(newTransform);
+                            wordSet.remove(newTransform);// due to this, no need to check if curr char and existing char are same
                         }
                     }
                 }

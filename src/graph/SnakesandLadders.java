@@ -1,13 +1,13 @@
 class Solution {
     public int snakesAndLadders(int[][] board) {
         int n = board.length;
-        for (int i = 0; i < n / 2; i++) {
+        for (int i = 0; i < n / 2; i++) {// since start of board is at end of matrix
             int[] temp = board[i];
             board[i] = board[n - i - 1];
             board[n - i - 1] = temp;
         }
         // [square, jumps]
-        Queue<List<Integer>> queue = new ArrayDeque<>();
+        Queue<List<Integer>> queue = new ArrayDeque<>();// we don't need priority queue - as we are taking 1 move at a time
         queue.add(List.of(1, 0));
 
         Set<Integer> visited = new HashSet<>();

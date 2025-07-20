@@ -1,3 +1,4 @@
+// m * n, m * n
 class Solution {
     public int longestIncreasingPath(int[][] matrix) {
         int m = matrix.length, n = matrix[0].length;

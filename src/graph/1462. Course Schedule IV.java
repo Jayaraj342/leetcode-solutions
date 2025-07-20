@@ -1,3 +1,4 @@
+// n^3, n^2
 class Solution {
     public List<Boolean> checkIfPrerequisite(int numCourses, int[][] prerequisites, int[][] queries) {
         boolean[][] dp = new boolean[numCourses][numCourses];// Floyd-Warshall Algorithm to compute transitive closure

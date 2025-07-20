@@ -1,31 +1,41 @@
+// n^2 * log(n^2), n^2
 class Solution {
     public int swimInWater(int[][] grid) {
         int n = grid.length;
-        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> a[0] - b[0]);
-        minHeap.add(new int[]{grid[0][0], 0, 0});
 
-        Set<String> set = new HashSet<>();
-        set.add("0,0");
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));
+        minHeap.offer(new int[]{grid[0][0], 0, 0});
 
-        int[][] directions = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        boolean[][] visited = new boolean[n][n];
+        visited[0][0] = true;
+
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
 
         while (!minHeap.isEmpty()) {
-            int[] lastCell = minHeap.remove();
-            if (lastCell[1] == n - 1 && lastCell[2] == n - 1) {
-                return lastCell[0];
+            int[] current = minHeap.remove();
+            int time = current[0], row = current[1], col = current[2];
+
+            if (row == n - 1 && col == n - 1) {
+                return time;
             }
+
             for (int[] dir : directions) {
-                int nr = lastCell[1] + dir[0];
-                int nc = lastCell[2] + dir[1];
-                boolean outOfBounds = nr < 0 || nc < 0 || nr >= n || nc >= n;
-                if (outOfBounds || set.contains(nr + "," + nc)) {
+                int newRow = row + dir[0];
+                int newCol = col + dir[1];
+
+                if (!isValid(newRow, newCol, n, visited)) {
                     continue;
                 }
-                set.add(nr + "," + nc);
-                minHeap.add(new int[]{Math.max(lastCell[0], grid[nr][nc]), nr, nc});
+                visited[newRow][newCol] = true;
+                int newTime = Math.max(time, grid[newRow][newCol]);
+                minHeap.add(new int[]{newTime, newRow, newCol});
             }
         }
 
         return -1;
+    }
+
+    private boolean isValid(int row, int col, int n, boolean[][] visited) {
+        return row >= 0 && row < n && col >= 0 && col < n && !visited[row][col];
     }
 }

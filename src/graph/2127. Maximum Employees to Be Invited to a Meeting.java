@@ -1,6 +1,6 @@
 class Solution {
     public int maximumInvitations(int[] favorite) {
-        // There will always be cycle - no. edges == no. nodes
+        // There will always be cycle as -> number of edges == number of nodes in the problem
         // find cycles and their length
 
         int n = favorite.length; // no. employees
@@ -26,7 +26,7 @@ class Solution {
                 int cycleLen = len - outsideNodes;
                 // found length of cycle
                 // if cycleLen != 2, ans is max of cycleLen
-                // else find len of all nodes connected on both sides
+                // else find len of all nodes connected on both sides (since we don't know where to start, we reverse the graph..)
                 // [1,0,0,2,1,4,7,8,9,6,7,10,8]
                 if (cycleLen == 2) {
                     // curr is inside 2 loop
@@ -54,8 +54,9 @@ class Solution {
         return Math.max(max, temp2);
     }
 
-    // reverse edges
-    // treating it as undirected graph won't work as a node can have 3 edges and we should not count it
+    // reversed graph can have 1+ outgoing edges
+    // 1) sibling pair
+    // 2) many other employees who want to sit next
     private int bfs(List<Integer>[] revGraph, int src, int siblingPair) {
         Queue<int[]> queue = new LinkedList<>();
         queue.add(new int[] {src, 0}); // one node can have many outgoing nodes - have to choose max 1

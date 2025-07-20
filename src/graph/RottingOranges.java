@@ -1,4 +1,5 @@
 // don't use list - use string concatination
+// m * n, m * n
 class Solution {
     int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 

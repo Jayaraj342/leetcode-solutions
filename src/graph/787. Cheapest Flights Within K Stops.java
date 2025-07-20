@@ -1,3 +1,5 @@
+// Bellman-ford variant
+// K * (V + E), V + E + K * (V + E)
 class Solution {
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
         // Create adjacency list

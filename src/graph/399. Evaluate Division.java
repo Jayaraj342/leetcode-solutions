@@ -1,55 +1,73 @@
+// Q * (V + E), Q + V + E
 class Solution {
     public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
-        Map<String, List<Node>> adj = new HashMap<>();
-        int n = equations.size();
-        for (int i = 0; i < n; i++) {
-            String u = equations.get(i).get(0), v = equations.get(i).get(1);
-            double w = values[i];
-            List<Node> listNum = adj.getOrDefault(u, new ArrayList<>());
-            listNum.add(new Node(v, w));
-            adj.put(u, listNum);
+        // Build the graph from the given equations and values
+        Map<String, List<Edge>> adj = buildGraph(equations, values);
 
-            List<Node> listDenom = adj.getOrDefault(v, new ArrayList<>());
-            listDenom.add(new Node(u, 1 / w));
-            adj.put(v, listDenom);
-        }
+        // Evaluate each query using DFS
+        double[] result = new double[queries.size()];
+        for (int i = 0; i < queries.size(); i++) {
+            String start = queries.get(i).get(0);
+            String end = queries.get(i).get(1);
 
-        int m = queries.size();
-        double[] res = new double[m];
-        for (int i = 0; i < m; i++) {
-            String u = queries.get(i).get(0), v = queries.get(i).get(1);
-            res[i] = adj.containsKey(u) && adj.containsKey(v) ? dfs(adj, u, v, new HashSet<>()) : -1;
-        }
-
-        return res;
-    }
-
-    private double dfs(Map<String, List<Node>> adj, String src, String tgt, Set<String> visited) {
-        if (visited.contains(src)) {
-            return -1;
-        }
-        visited.add(src);
-        if (Objects.equals(src, tgt)) {
-            return 1;
-        }
-
-        for (Node nei : adj.getOrDefault(src, new ArrayList<>())) {
-            double temp = dfs(adj, nei.v, tgt, visited);
-            if (temp != -1) {
-                return nei.w * temp;
+            // If either variable is not in the graph, the result is -1.0
+            if (!adj.containsKey(start) || !adj.containsKey(end)) {
+                result[i] = -1.0;
+            } else {
+                result[i] = dfs(adj, start, end, new HashSet<>());
             }
         }
 
-        return -1;
+        return result;
     }
 
-    static class Node {
-        String v;
-        double w;
+    private Map<String, List<Edge>> buildGraph(List<List<String>> equations, double[] values) {
+        Map<String, List<Edge>> graph = new HashMap<>();
 
-        Node(String v, double w) {
-            this.v = v;
-            this.w = w;
+        for (int i = 0; i < equations.size(); i++) {
+            String u = equations.get(i).get(0);
+            String v = equations.get(i).get(1);
+            double w = values[i];
+
+            // Add edge a -> b with weight
+            graph.computeIfAbsent(u, k -> new ArrayList<>()).add(new Edge(v, w));
+
+            // Add reverse-edge b -> a with inverse weight
+            graph.computeIfAbsent(v, k -> new ArrayList<>()).add(new Edge(u, 1.0 / w));
+        }
+
+        return graph;
+    }
+
+    // DFS traversal to find the product from current to target
+    private double dfs(Map<String, List<Edge>> graph, String curr, String target, Set<String> visited) {
+        // Base case: if source and destination are same
+        if (curr.equals(target)) return 1.0;
+
+        visited.add(curr);
+
+        for (Edge edge : graph.getOrDefault(curr, Collections.emptyList())) {
+            if (!visited.contains(edge.to)) {
+                // Recursively search from neighbor to target
+                double product = dfs(graph, edge.to, target, visited);
+                if (product != -1.0) {
+                    return edge.weight * product;
+                }
+            }
+        }
+
+        // Path not found
+        return -1.0;
+    }
+
+    // Helper class to represent a weighted edge in the graph
+    private static class Edge {
+        String to;
+        double weight;
+
+        Edge(String to, double weight) {
+            this.to = to;
+            this.weight = weight;
         }
     }
 }

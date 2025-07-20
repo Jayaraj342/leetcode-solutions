@@ -1,31 +1,38 @@
+// E, E
 class Solution {
     public int minReorder(int n, int[][] connections) {
         List<Integer>[] adj = new List[n];
         for (int i = 0; i < n; i++) {
-            adj[i] = new ArrayList();
+            adj[i] = new ArrayList<>();
         }
+
+        // Build the adjacency list with direction info
         for (int[] con : connections) {
-            adj[con[0]].add(con[1]);
-            adj[con[1]].add(-con[0]);
+            int from = con[0], to = con[1];
+            adj[from].add(to);    // original direction
+            adj[to].add(-from);   // reverse edge (mark with negative)
         }
 
         Set<Integer> visited = new HashSet<>();
-        return dfs(adj, 0, visited);
+        return dfs(0, adj, visited);
     }
 
-    private int dfs(List<Integer>[] adj, int curr, Set<Integer> visited) {
+    private int dfs(int curr, List<Integer>[] adj, Set<Integer> visited) {
         visited.add(curr);
+        int changes = 0;
 
-        int count = 0;
         for (int nei : adj[curr]) {
-            if (!visited.contains(Math.abs(nei))) {
-                if (nei > 0) {
-                    count += 1;
-                }
-                count += dfs(adj, Math.abs(nei), visited);
+            int next = Math.abs(nei);
+            if (visited.contains(next)) continue;
+
+            // If edge is forward (original direction), we need to reverse it
+            if (nei > 0) {
+                changes++;
             }
+
+            changes += dfs(next, adj, visited);
         }
 
-        return count;
+        return changes;
     }
 }
