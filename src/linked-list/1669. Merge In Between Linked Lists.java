@@ -15,6 +15,7 @@ class ListNode {
     }
 }
 
+// since a, b starts from 1, never have to remove 1st node
 class Solution {
     public ListNode mergeInBetween(ListNode list1, int a, int b, ListNode list2) {
         ListNode prevA = list1;

@@ -1,3 +1,5 @@
+// Modified dijkstra's
+// (E + V) * log(V), E + V
 class Solution {
     public int countPaths(int n, int[][] roads) {
         List<int[]>[] adj = new List[n];

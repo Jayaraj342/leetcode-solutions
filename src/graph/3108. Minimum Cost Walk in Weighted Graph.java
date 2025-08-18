@@ -1,3 +1,4 @@
+// E * deltaV + Q * deltaV, V
 class Solution {
     public int[] minimumCost(int n, int[][] edges, int[][] query) {
         // parent array

@@ -41,3 +41,68 @@ class Solution {
         return res;
     }
 }
+
+class Solution {
+    public boolean isVowel(char ch) {
+        return ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u';
+    }
+
+    public long countOfSubstrings(String word, int k) {
+        int n = word.length();
+        Map<Character, Integer> vowels = new HashMap<>();
+        int consonantCount = 0;
+        long result = 0;
+
+        // Precompute next consonant positions
+        int[] nextConsonant = new int[n];
+        int lastConsonant = n;
+        for (int i = n - 1; i >= 0; i--) {
+            nextConsonant[i] = lastConsonant;
+            if (!isVowel(word.charAt(i))) {
+                lastConsonant = i;
+            }
+        }
+
+        // Sliding window
+        int left = 0;
+        for (int right = 0; right < n; right++) {
+            char rightChar = word.charAt(right);
+            if (isVowel(rightChar)) {
+                vowels.put(rightChar, vowels.getOrDefault(rightChar, 0) + 1);
+            } else {
+                consonantCount++;
+            }
+
+            // Shrink window if too many consonants
+            while (left <= right && consonantCount > k) {
+                char leftChar = word.charAt(left);
+                if (isVowel(leftChar)) {
+                    vowels.put(leftChar, vowels.get(leftChar) - 1);
+                    if (vowels.get(leftChar) == 0) {
+                        vowels.remove(leftChar);
+                    }
+                } else {
+                    consonantCount--;
+                }
+                left++;
+            }
+
+            // Count valid substrings
+            while (left < right && vowels.size() == 5 && consonantCount == k) {
+                result += (nextConsonant[right] - right);
+                char leftChar = word.charAt(left);
+                if (isVowel(leftChar)) {
+                    vowels.put(leftChar, vowels.get(leftChar) - 1);
+                    if (vowels.get(leftChar) == 0) {
+                        vowels.remove(leftChar);
+                    }
+                } else {
+                    consonantCount--;
+                }
+                left++;
+            }
+        }
+
+        return result;
+    }
+}

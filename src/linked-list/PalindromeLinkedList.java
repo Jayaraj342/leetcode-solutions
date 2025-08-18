@@ -50,3 +50,33 @@ class Solution {
         return true;
     }
 }
+
+// n, n
+class Solution {
+    private ListNode front;
+
+    public boolean isPalindrome(ListNode head) {
+        front = head;
+        return check(head);
+    }
+
+    private boolean check(ListNode current) {
+        if (current == null) {
+            return true;
+        }
+
+        // Go to the end
+        if (!check(current.next)) {
+            return false;
+        }
+
+        // Compare front and current
+        if (front.val != current.val) {
+            return false;
+        }
+
+        // Move front forward
+        front = front.next;
+        return true;
+    }
+}

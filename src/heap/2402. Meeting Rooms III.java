@@ -1,42 +1,59 @@
 class Solution {
     public int mostBooked(int n, int[][] meetings) {
-        PriorityQueue<Integer> available = new PriorityQueue<>();
+        // Sort meetings by start time
+        Arrays.sort(meetings, Comparator.comparingInt(a -> a[0]));
+
+        // Min-heap for available rooms (by room number)
+        PriorityQueue<Integer> availableRooms = new PriorityQueue<>();
         for (int i = 0; i < n; i++) {
-            available.add(i);
-        }
-        // [end, room]
-        PriorityQueue<int[]> used = new PriorityQueue<>((a, b) -> a[0] != b[0] ? a[0] - b[0] : a[1] - b[1]);
-        Arrays.sort(meetings, (a, b) -> a[0] - b[0]);
-
-        int[] cnt = new int[n];
-        for (int[] pair : meetings) {
-            int start = pair[0], end = pair[1];
-
-            while (!used.isEmpty() && start >= used.peek()[0]) {
-                int[] finished = used.remove();
-                available.add(finished[1]);
-            }
-
-            if (available.isEmpty()) {
-                int[] finished = used.remove();
-                int lastEnd = finished[0], lastRoom = finished[1];
-                available.add(lastRoom);
-                end = (end - start) + lastEnd;
-            }
-
-            int room = available.remove();
-            used.add(new int[] {end, room});
-            cnt[room]++;
+            availableRooms.add(i);
         }
 
-        int maxMeetings = -1, maxRoom = -1;
+        // Min-heap for ongoing meetings: [endTime, roomNumber]
+        PriorityQueue<int[]> ongoingMeetings = new PriorityQueue<>(
+                (a, b) -> {
+                    if (b[0] != a[0]) {
+                        return a[0] - b[0];// least end time
+                    }
+
+                    return a[1] - b[1];// least room number
+                }
+        );
+
+        int[] usageCount = new int[n];
+        int maxUsage = 0;
+
+        for (int[] meeting : meetings) {
+            int start = meeting[0], end = meeting[1];
+
+            // Free up rooms whose meetings have ended
+            while (!ongoingMeetings.isEmpty() && ongoingMeetings.peek()[0] <= start) {
+                availableRooms.add(ongoingMeetings.poll()[1]);
+            }
+
+            if (availableRooms.isEmpty()) {
+                // Delay this meeting until the earliest room is free
+                int[] earliest = ongoingMeetings.remove();
+                int room = earliest[1];
+                int newEnd = earliest[0] + (end - start);
+                ongoingMeetings.offer(new int[]{newEnd, room});
+                usageCount[room]++;
+                maxUsage = Math.max(maxUsage, usageCount[room]);
+            } else {
+                // Assign to earliest available room
+                int room = availableRooms.remove();
+                ongoingMeetings.add(new int[]{end, room});
+                usageCount[room]++;
+                maxUsage = Math.max(maxUsage, usageCount[room]);
+            }
+        }
+
+        // Return smallest room number with max usage
         for (int i = 0; i < n; i++) {
-            if (cnt[i] > maxMeetings) {
-                maxMeetings = cnt[i];
-                maxRoom = i;
+            if (usageCount[i] == maxUsage) {
+                return i;
             }
         }
-
-        return maxRoom;
+        return -1; // Shouldn't reach here
     }
 }

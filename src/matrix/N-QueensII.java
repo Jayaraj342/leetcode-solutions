@@ -1,3 +1,4 @@
+// n!, n
 class Solution {
     Set<Integer> col = new HashSet<>();
     Set<Integer> posDiag = new HashSet<>();

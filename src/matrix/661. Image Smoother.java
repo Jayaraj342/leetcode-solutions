@@ -1,4 +1,5 @@
 // SC : O(1)
+// (since original num and result fit in 8 bits - store result temporarily in last 8 bits)
 class Solution {
     public int[][] imageSmoother(int[][] img) {
         int[][] dirs = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};

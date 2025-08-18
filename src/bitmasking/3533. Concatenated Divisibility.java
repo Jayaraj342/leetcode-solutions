@@ -1,3 +1,5 @@
+// n * 2^k * n, n * 2^k * n
+// k ~ 5
 class Solution {
     private Map<String, List<Integer>> memo;
     private long[] pow10;

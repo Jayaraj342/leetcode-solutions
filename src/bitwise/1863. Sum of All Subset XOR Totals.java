@@ -6,7 +6,7 @@ class Solution {
             res |= num;
         }
 
-        return res * (int) Math.pow(2, n - 1);
+        return res * (int) Math.pow(2, n - 1);// half of 2^n = 2^(n-1)
     }
 }
 

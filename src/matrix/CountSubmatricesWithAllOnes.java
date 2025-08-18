@@ -1,3 +1,6 @@
+//In the classic "largest rectangle in histogram", you only want the max area.
+//Here, you want to sum up all areas. By multiplying by (left choices * right choices), you count all possible starting and ending columns where that bar is the minimum
+// Typical largest rectangle in histogram won't work if you calculate only one direction
 class Solution {
     public int numSubmat(int[][] mat) {
         int m = mat.length;

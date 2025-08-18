@@ -1,3 +1,61 @@
+// n^2 * 2^n, 2^n
+class Solution {
+    Map<Long, Boolean> memo;
+
+    public boolean makesquare(int[] matchsticks) {
+        int n = matchsticks.length;
+
+        int sum = 0;
+        for (int num : matchsticks) sum += num;
+
+        if (sum % 4 != 0) return false;
+        int target = sum / 4;
+
+        Arrays.sort(matchsticks);
+        // Reverse to start with the largest first (reduces branching)
+        for (int i = 0; i < n / 2; i++) {
+            int temp = matchsticks[i];
+            matchsticks[i] = matchsticks[n - i - 1];
+            matchsticks[n - i - 1] = temp;
+        }
+
+        memo = new HashMap<>();
+        return dfs(matchsticks, target, 0, 0, 0);
+    }
+
+    private boolean dfs(int[] sticks, int target, int mask, int currLen, int cnt) {
+        int n = sticks.length;
+        if (cnt == 3) return true; // Last side auto-forms
+
+        long key = (((long) mask) << 10) | currLen; // compact state encoding
+        if (memo.containsKey(key)) return memo.get(key);
+
+        for (int i = 0; i < n; i++) {
+            if ((mask & (1 << i)) != 0) continue; // already used
+
+            int newLen = currLen + sticks[i];
+            if (newLen > target) continue;
+
+            int newMask = mask | (1 << i);
+
+            if (newLen == target) {
+                if (dfs(sticks, target, newMask, 0, cnt + 1)) {
+                    memo.put(key, true);
+                    return true;
+                }
+            } else {
+                if (dfs(sticks, target, newMask, newLen, cnt)) {
+                    memo.put(key, true);
+                    return true;
+                }
+            }
+        }
+
+        memo.put(key, false);
+        return false;
+    }
+}
+
 // 2^n or 4^n in worst case - will be way less because of pruning/early exit
 class Solution {
     public boolean makesquare(int[] matchsticks) {

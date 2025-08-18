@@ -1,3 +1,23 @@
+// space O(1)
+class Solution {
+    public int countBinarySubstrings(String s) {
+        int prevCount = 0, currCount = 1, res = 0;
+
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) == s.charAt(i - 1)) {
+                currCount++;
+            } else {
+                res += Math.min(prevCount, currCount);
+                prevCount = currCount;
+                currCount = 1;
+            }
+        }
+        res += Math.min(prevCount, currCount);
+
+        return res;
+    }
+}
+
 // space O(n)
 class Solution {
     public int countBinarySubstrings(String s) {
@@ -17,26 +37,6 @@ class Solution {
         for (int i = 1; i < groups.size(); i++) {
             res += Math.min(groups.get(i), groups.get(i - 1));
         }
-
-        return res;
-    }
-}
-
-// space O(1)
-class Solution {
-    public int countBinarySubstrings(String s) {
-        int curr = 1, prev = 0;
-        int res = 0;
-        for (int i = 1; i < s.length(); i++) {
-            if (s.charAt(i) == s.charAt(i - 1)) {
-                curr++;
-            } else {
-                res += Math.min(prev, curr);
-                prev = curr;
-                curr = 1;
-            }
-        }
-        res += Math.min(prev, curr);
 
         return res;
     }

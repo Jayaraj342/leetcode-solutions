@@ -31,3 +31,34 @@ class Solution {
         return -1; // No row or column is completely filled
     }
 }
+
+// save little memory - but SC remains same
+class Solution {
+    public int firstCompleteIndex(int[] arr, int[][] mat) {
+        int m = mat.length, n = mat[0].length;
+
+        int total = m * n;
+        int[] pos = new int[total + 1]; // number -> encoded position (row * n + col)
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                pos[mat[i][j]] = i * n + j;
+            }
+        }
+
+        int[] rowCount = new int[m];
+        int[] colCount = new int[n];
+
+        for (int i = 0; i < arr.length; i++) {
+            int encoded = pos[arr[i]];
+            int r = encoded / n;
+            int c = encoded % n;
+
+            if (++rowCount[r] == n || ++colCount[c] == m) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+}

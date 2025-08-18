@@ -14,6 +14,23 @@ class Solution {
 
 class Solution {
     public int longestNiceSubarray(int[] nums) {
+        int maxLen = 0;
+
+
+        for (int i = 0; i < nums.length; i++) {
+            int mask = 0;
+            for (int j = i; j < nums.length; j++) {
+                if ((mask & nums[j]) != 0) break;
+                maxLen = Math.max(maxLen, j - i + 1);
+                mask = (nums[j] | mask);
+            }
+        }
+        return maxLen;
+    }
+}
+
+class Solution {
+    public int longestNiceSubarray(int[] nums) {
         int n = nums.length;
         int lo = 1, hi = 32;
         int res = 1;
