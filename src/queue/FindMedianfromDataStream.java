@@ -1,3 +1,4 @@
+// addNum -> logn
 class MedianFinder {
     // first-half
     PriorityQueue<Integer> maxPQ;

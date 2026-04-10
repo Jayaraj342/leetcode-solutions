@@ -56,3 +56,26 @@ class Solution {
         new Solution().countPrefixSuffixPairs(new String[]{"a","aba","ababa","aa"});
     }
 }
+
+class Solution {
+    public int countPrefixSuffixPairs(String[] words) {
+        TrieNode root = new TrieNode();
+        int res = 0;
+        for (String word : words) {
+            TrieNode temp = root;
+            for (int i = 0, n = word.length(); i < n; ++i) {
+                int key = word.charAt(i) * 128 + word.charAt(n - i - 1);
+                temp = temp.children.computeIfAbsent(key, (v) -> new TrieNode());
+                res += temp.cnt;
+            }
+            temp.cnt++;
+        }
+
+        return res;
+    }
+
+    static class TrieNode {
+        HashMap<Integer, TrieNode> children = new HashMap<>();
+        int cnt = 0;
+    }
+}

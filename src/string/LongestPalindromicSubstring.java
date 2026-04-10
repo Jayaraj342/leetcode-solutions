@@ -58,4 +58,4 @@ class Solution {
     }
 }
 
-// 131. Palindrome Partitioning https://leetcode.com/problems/palindrome-partitioning/description/
+// 131. Palindrome Partitioning https://leetcode.com/problems/palindrome-partitioning/

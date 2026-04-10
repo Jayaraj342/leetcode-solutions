@@ -1,4 +1,5 @@
 // E.log(E), E + V
+// Dijkstra's
 class Solution {
     public double maxProbability(int n, int[][] edges, double[] succProb, int start, int end) {
         // Build adjacency list

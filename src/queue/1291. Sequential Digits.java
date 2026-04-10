@@ -1,3 +1,25 @@
+// 36 => O(1)
+class Solution {
+    public List<Integer> sequentialDigits(int low, int high) {
+        List<Integer> res = new ArrayList<>();
+        String digits = "123456789";
+
+        int minLen = String.valueOf(low).length();
+        int maxLen = String.valueOf(high).length();
+
+        for (int len = minLen; len <= maxLen; len++) {
+            for (int start = 0; start + len <= 9; start++) {
+                int num = Integer.parseInt(digits.substring(start, start + len));
+                if (num >= low && num <= high) {
+                    res.add(num);
+                }
+            }
+        }
+
+        return res;
+    }
+}
+
 class Solution {
     public List<Integer> sequentialDigits(int low, int high) {
         Queue<Integer> queue = new LinkedList<>();

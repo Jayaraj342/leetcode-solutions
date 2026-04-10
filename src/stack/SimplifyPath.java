@@ -1,3 +1,6 @@
+// split won't add last empty string to result
+// "/hello/" -> ["", "hello"]
+// "hello/" -> ["hello"]
 class Solution {
     public String simplifyPath(String path) {
         Stack<String> stack = new Stack<>();

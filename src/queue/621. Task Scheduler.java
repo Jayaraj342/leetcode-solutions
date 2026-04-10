@@ -1,4 +1,4 @@
-// T * log(26) -> T, 1
+// n * log(26) -> n, 1
 class Solution {
     public int leastInterval(char[] tasks, int n) {
         int[] freqMap = new int[26];

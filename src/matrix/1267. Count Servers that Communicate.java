@@ -1,34 +1,3 @@
-class Solution {
-    public int countServers(int[][] grid) {
-        int m = grid.length, n = grid[0].length;
-        int[] rowCount = new int[m], columnCount = new int[n];
-        int totalServers = 0;
-
-        // First pass: Count servers in each row and column
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j] == 1) {
-                    rowCount[i]++;
-                    columnCount[j]++;
-                    totalServers++;
-                }
-            }
-        }
-
-        // Second pass: Count servers that can communicate
-        int res = 0;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j] == 1 && (rowCount[i] > 1 || columnCount[j] > 1)) {
-                    res++;
-                }
-            }
-        }
-
-        return res;
-    }
-}
-
 // SC : O(1)
 class Solution {
     public int countServers(int[][] grid) {
@@ -68,7 +37,39 @@ class Solution {
     }
 }
 
+class Solution {
+    public int countServers(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        int[] rowCount = new int[m], columnCount = new int[n];
+        int totalServers = 0;
+
+        // First pass: Count servers in each row and column
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) {
+                    rowCount[i]++;
+                    columnCount[j]++;
+                    totalServers++;
+                }
+            }
+        }
+
+        // Second pass: Count servers that can communicate
+        int res = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1 && (rowCount[i] > 1 || columnCount[j] > 1)) {
+                    res++;
+                }
+            }
+        }
+
+        return res;
+    }
+}
+
 // without changing input and SC = O(1)
+// mn + m^2 ~ n^2
 class Solution {
     public int countServers(int[][] grid) {
         int m = grid.length, n = grid[0].length;

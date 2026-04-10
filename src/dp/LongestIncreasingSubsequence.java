@@ -1,5 +1,24 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
+        List<Integer> list = new ArrayList<>();
+        for (int num : nums) {
+            if (list.isEmpty() || list.get(list.size() - 1) < num) {
+                list.add(num);
+            } else {
+                int idx = Collections.binarySearch(list, num);
+                if (idx < 0) {
+                    idx = -(idx + 1);
+                }
+                list.set(idx, num);
+            }
+        }
+
+        return list.size();
+    }
+}
+
+class Solution {
+    public int lengthOfLIS(int[] nums) {
         int n = nums.length;
         int[] dp = new int[n];
         Arrays.fill(dp, 1);

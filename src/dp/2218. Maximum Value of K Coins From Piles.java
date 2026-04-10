@@ -4,14 +4,14 @@ class Solution {
         int[] dp = new int[k + 1];
 
         for (List<Integer> pile : piles) {
-            int[] newDp = dp.clone();
+            int[] newDp = dp.clone();//===============================> IMP
             int prefixSum = 0;
 
-            for (int i = 0; i < pile.size() && i < k; i++) {
-                prefixSum += pile.get(i);
+            for (int i = 1; i <= Math.min(pile.size(), k); i++) {
+                prefixSum += pile.get(i - 1);
 
-                for (int j = k; j >= i + 1; j--) {
-                    newDp[j] = Math.max(newDp[j], dp[j - (i + 1)] + prefixSum);// for i = 0, use 1 element from curr pile + (k - 1) elements from prev piles
+                for (int j = i; j <= k; j++) {
+                    newDp[j] = Math.max(newDp[j], dp[j - i] + prefixSum);// for i = 1, use 1 element from curr pile + (k - 1) elements from prev piles
                 }
             }
 

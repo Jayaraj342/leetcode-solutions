@@ -1,4 +1,33 @@
 class Solution {
+    public int numDistinct(String s, String t) {
+        int m = s.length(), n = t.length();
+
+        if (n == 0) return 1;
+        if (m == 0) return 0;
+
+        // dp[j] denotes number of subsequences of first j chars of t in first i chars of s
+        long[][] dp = new long[m + 1][n + 1];
+
+        // An empty pattern is a subsequence of any prefix of s
+        for (int i = 0; i <= m; i++) {
+            dp[i][0] = 1;
+        }
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                dp[i][j] = dp[i - 1][j];
+
+                if (s.charAt(i - 1) == t.charAt(j - 1)) {
+                    dp[i][j] += dp[i - 1][j - 1];
+                }
+            }
+        }
+
+        return (int) dp[m][n];
+    }
+}
+
+class Solution {
     private Integer[][] memo;
 
     public int numDistinct(String s, String t) {
@@ -26,35 +55,6 @@ class Solution {
 
         memo[sIdx][tIdx] = count;
         return count;
-    }
-}
-
-class Solution {
-    public int numDistinct(String s, String t) {
-        int m = s.length(), n = t.length();
-
-        if (n == 0) return 1;
-        if (m == 0) return 0;
-
-        // dp[j] denotes number of subsequences of first j chars of t in first i chars of s
-        long[][] dp = new long[m + 1][n + 1];
-
-        // An empty pattern is a subsequence of any prefix of s
-        for (int i = 0; i <= m; i++) {
-            dp[i][0] = 1;
-        }
-
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-                dp[i][j] = dp[i - 1][j];
-
-                if (s.charAt(i - 1) == t.charAt(j - 1)) {
-                    dp[i][j] += dp[i - 1][j - 1];
-                }
-            }
-        }
-
-        return (int) dp[m][n];
     }
 }
 

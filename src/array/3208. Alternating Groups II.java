@@ -1,20 +1,24 @@
 class Solution {
     public int numberOfAlternatingGroups(int[] colors, int k) {
-        int n = colors.length, cnt = 0;
-        int left = 0;
-        for (int right = 1; right < n + k - 1; right++) {
-            if (colors[right % n] == colors[(right - 1) % n]) {
-                left = right;
+        int n = colors.length;
+        int count = 1;  // length of current alternating streak
+        int res = 0;
+
+        for (int i = 1; i < n + k - 1; i++) {
+            // Use modulo to handle circular traversal
+            if (colors[i % n] != colors[(i - 1) % n]) {
+                count++;
+            } else {
+                count = 1;  // reset streak
             }
-            if (right - left + 1 > k) {
-                left++;
-            }
-            if (right - left + 1 == k) {
-                cnt++;
+
+            // If we formed at least k alternating elements, count the group
+            if (count >= k) {
+                res++;
             }
         }
 
-        return cnt;
+        return res;
     }
 }
 

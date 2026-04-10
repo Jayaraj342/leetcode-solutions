@@ -29,41 +29,19 @@ class Solution {
 class Solution {
     public int maxProfit(int[] prices) {
         int n = prices.length;
-        int[] buy = new int[n + 2], sell = new int[n + 2];
-        buy[2] = -prices[0];
+        int buy = -prices[0], sell = 0, cooldown = 0;
         for (int i = 1; i < n; i++) {
-            // raise i by 2 => just to skip index checks
-            int price = prices[i];
-            int tempI = i;
-            i += 2;
+            int curr = prices[i];
+            // At current index
+            int bestBuy = Math.max(cooldown - curr, buy);
+            int bestSell = Math.max(buy + curr, sell);
+            int bestCooldown = Math.max(sell, cooldown);
 
-            buy[i] = Math.max(buy[i - 1], -price + sell[i - 2]);
-            sell[i] = Math.max(sell[i - 1], price + buy[i - 1]);
-
-            i = tempI;
+            buy = bestBuy;
+            sell = bestSell;
+            cooldown = bestCooldown;
         }
 
-        return sell[n + 1];
-    }
-}
-
-class Solution {
-    public int maxProfit(int[] prices) {
-        int n = prices.length;
-        int buy = 0, prevBuy = 0;
-        int sell = 0, prevSell = 0;
-
-        buy = -prices[0];
-        for (int i = 1; i < n; i++) {
-            int price = prices[i];
-
-            prevBuy = buy;
-            buy = Math.max(prevBuy, -price + prevSell);
-
-            prevSell = sell;
-            sell = Math.max(prevSell, price + prevBuy);
-        }
-
-        return sell;
+        return Math.max(sell, cooldown);
     }
 }

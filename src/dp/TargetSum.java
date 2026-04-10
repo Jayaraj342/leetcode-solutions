@@ -1,3 +1,4 @@
+// n * sum, n * sum
 class Solution {
     Map<String, Integer> memo = new HashMap<>();
 
@@ -21,6 +22,7 @@ class Solution {
     }
 }
 
+// n * sum, sum
 class Solution {
     public int findTargetSumWays(int[] nums, int target) {
         Map<Integer, Integer> counter = new HashMap<>();

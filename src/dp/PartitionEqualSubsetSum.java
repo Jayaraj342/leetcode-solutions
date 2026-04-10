@@ -62,3 +62,32 @@ class Solution {
         return false;
     }
 }
+
+// Can reduce space from m * n -> n
+class Solution {
+    public boolean canPartition(int[] nums) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+
+        if (sum % 2 != 0) {
+            return false;
+        }
+
+        int m = nums.length, n = sum / 2;
+        boolean[][] dp = new boolean[m + 1][n + 1];
+        dp[0][0] = true;
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                // Using i nums, can we end up with sum = j
+                dp[i][j] = dp[i - 1][j];// without
+                if (j - nums[i - 1] >= 0) {
+                    dp[i][j] = dp[i][j] || dp[i - 1][j - nums[i - 1]];// with
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+}

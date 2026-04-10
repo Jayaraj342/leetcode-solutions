@@ -1,45 +1,46 @@
 class Solution {
     public int snakesAndLadders(int[][] board) {
         int n = board.length;
-        for (int i = 0; i < n / 2; i++) {// since start of board is at end of matrix
+
+        // Reverse the board vertically to make bottom row index = 0 (start position)
+        for (int i = 0; i < n / 2; i++) {
             int[] temp = board[i];
-            board[i] = board[n - i - 1];
-            board[n - i - 1] = temp;
+            board[i] = board[n - 1 - i];
+            board[n - 1 - i] = temp;
         }
-        // [square, jumps]
-        Queue<List<Integer>> queue = new ArrayDeque<>();// we don't need priority queue - as we are taking 1 move at a time
-        queue.add(List.of(1, 0));
 
-        Set<Integer> visited = new HashSet<>();
+        Queue<int[]> queue = new ArrayDeque<>();
+        queue.offer(new int[] {1, 0}); // {square, moves}
+
+        boolean[] visited = new boolean[n * n + 1];
+        visited[1] = true;
+
         while (!queue.isEmpty()) {
-            List<Integer> lastSquare = queue.remove();
+            int[] curr = queue.poll();
+            int square = curr[0], moves = curr[1];
 
-            for (int i = 1; i < 7; i++) {
-                int nextSquare = lastSquare.get(0) + i;
-                List<Integer> indexes = squareToIndexes(nextSquare, n);
-                int r = indexes.get(0), c = indexes.get(1);
-                if (board[r][c] != -1) {
-                    nextSquare = board[r][c];
-                }
-                if (nextSquare == n * n) {
-                    return lastSquare.get(1) + 1;
-                }
-                if (!visited.contains(nextSquare)) {
-                    queue.add(List.of(nextSquare, lastSquare.get(1) + 1));
-                    visited.add(nextSquare);
+            for (int dice = 1; dice <= 6; dice++) {
+                int next = square + dice;
+                if (next > n * n) break; // out of bounds
+
+                next = getBoardValue(next, n, board); // handle snake/ladder
+
+                if (next == n * n) return moves + 1;
+                if (!visited[next]) {
+                    visited[next] = true;
+                    queue.offer(new int[] {next, moves + 1});
                 }
             }
         }
+
         return -1;
     }
 
-    private List<Integer> squareToIndexes(int square, int n) {
-        int r = (square - 1) / n;
-        int c = (square - 1) % n;
-        if (r % 2 != 0) {
-            c = n - 1 - c;
-        }
-
-        return List.of(r, c);
+    // Converts square number -> (row, col), handles zigzag pattern
+    private int getBoardValue(int square, int n, int[][] board) {
+        int row = (square - 1) / n;
+        int col = (square - 1) % n;
+        if (row % 2 == 1) col = n - 1 - col; // zigzag direction
+        return board[row][col] == -1 ? square : board[row][col];
     }
 }

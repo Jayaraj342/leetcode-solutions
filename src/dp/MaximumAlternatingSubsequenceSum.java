@@ -23,6 +23,23 @@ class Solution {
 
 class Solution {
     public long maxAlternatingSum(int[] nums) {
+        long buy = 0, sell = 0;
+        for (int num : nums) {
+            // Buy at current stock
+            long currBuy = sell + num;
+            // Sell at current stock
+            long currSell = buy - num;
+
+            buy = Math.max(buy, currBuy);
+            sell = Math.max(sell, currSell);
+        }
+
+        return buy;
+    }
+}
+
+class Solution {
+    public long maxAlternatingSum(int[] nums) {
         long peak = 0;
         long low = 0;
         long ans = 0;

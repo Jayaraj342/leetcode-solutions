@@ -1,3 +1,4 @@
+// n.sqrt(max)), n
 class Solution {
     public boolean canTraverseAllPairs(int[] nums) {
         int n = nums.length;

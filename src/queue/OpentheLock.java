@@ -1,3 +1,4 @@
+// 10^4, 10^4
 class Solution {
     public int openLock(String[] deadends, String target) {
         Set<String> visited = new HashSet<>(Arrays.asList(deadends));

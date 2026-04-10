@@ -1,3 +1,4 @@
+// n, n
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
         Deque<Integer> queue = new ArrayDeque<>();

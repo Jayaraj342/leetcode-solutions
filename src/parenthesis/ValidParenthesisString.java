@@ -1,32 +1,59 @@
 class Solution {
     public boolean checkValidString(String s) {
-        int leftMin = 0;
-        int leftMax = 0;
+        int minOpen = 0, maxOpen = 0;
 
-        for (char c : s.toCharArray()) {
-            if (c == '(') {
-                leftMin++;
-                leftMax++;
-            } else if (c == ')') {
-                leftMin--;
-                leftMax--;
-            } else {
-                leftMin--;
-                leftMax++;
+        for (char ch : s.toCharArray()) {
+            if (ch == '(') {
+                minOpen++;
+                maxOpen++;
+            } else if (ch == ')') {
+                minOpen--;
+                maxOpen--;
+            } else { // '*'
+                minOpen--;
+                maxOpen++;
             }
 
-            if (leftMax < 0) {
-                return false;
-            }
-            if (leftMin < 0) {
-                leftMin = 0;
-            }
+            if (maxOpen < 0) return false; // too many ')'
+            if (minOpen < 0) minOpen = 0; // '*' can compensate
         }
 
-        return leftMin == 0;
+        return minOpen == 0;
     }
 }
 
+class Solution {
+    public boolean checkValidString(String s) {
+        Deque<Integer> open = new ArrayDeque<>();
+        Deque<Integer> star = new ArrayDeque<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (ch == '(') {
+                open.push(i);
+            } else if (ch == '*') {
+                star.push(i);
+            } else { // ch == ')'
+                if (!open.isEmpty()) {
+                    open.pop();
+                } else if (!star.isEmpty()) {
+                    star.pop();
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        // Match remaining '(' with available '*' (which must come after '(')
+        while (!open.isEmpty() && !star.isEmpty()) {
+            if (open.pop() > star.pop()) return false;
+        }
+
+        return open.isEmpty();
+    }
+}
+
+// n^2, n^2
 class Solution {
     public boolean checkValidString(String s) {
         return dfs(s, 0, 0);

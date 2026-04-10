@@ -1,4 +1,4 @@
-// TC : O(m^3) and not O(n^2 * m)
+// TC : O(k^3) and not O(n^2 * k), SC : O(k^2)
 class Solution {
     Map<String, Integer> memo;
 
@@ -30,7 +30,7 @@ class Solution {
     }
 }
 
-// TC : O(M^3)
+// TC : O(k^3)
 // think like palindromes dp version..
 class Solution {
     public int minCost(int n, int[] cuts) {

@@ -1,3 +1,4 @@
+// m * n^2, m * n
 class Solution {
     int m, n;
     int[] dir;
@@ -30,6 +31,7 @@ class Solution {
     }
 }
 
+// m * n^2, m * n^2
 class Solution {
     int m, n;
     int[] dir;

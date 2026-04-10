@@ -14,7 +14,7 @@ class Solution {
             int tempI = i;
             while (!stack.isEmpty() && stack.peek()[0] > nums[i]) {
                 Integer[] lastMax = stack.pop();
-                // prefixSum.get(4) will give sum of indexes 0,1,2,3
+                // prefixSum.get(4) will give sum of indexes 0,1,2,3 (we will always need previous one's prefix)
                 max = Math.max(max, lastMax[0] * (prefixSums.get(i) - prefixSums.get(lastMax[1])));
                 tempI = lastMax[1];
             }
