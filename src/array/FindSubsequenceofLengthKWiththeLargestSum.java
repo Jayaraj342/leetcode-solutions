@@ -8,6 +8,8 @@ class Solution {
                 minHeap.remove();
             }
         }
+
+        // keep original array order intact - so sort indexes
         return minHeap.stream().sorted().mapToInt(i -> nums[i]).toArray();
     }
 }

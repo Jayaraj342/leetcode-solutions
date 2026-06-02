@@ -4,7 +4,7 @@ class Solution {
         Arrays.sort(meetings, (a, b) -> a[0] - b[0]);
 
         int start = meetings[0][0], end = meetings[0][1];
-
+        // should reduce days only - cannot count only gaps..
         for (int i = 1; i < meetings.length; i++) {
             int currStart = meetings[i][0], currEnd = meetings[i][1];
 

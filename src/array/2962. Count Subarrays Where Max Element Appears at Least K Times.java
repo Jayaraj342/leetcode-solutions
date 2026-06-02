@@ -1,3 +1,4 @@
+// https://github.com/Jayaraj342/leetcode-solutions1/blob/master/src/array/2962.%20Count%20Subarrays%20Where%20Max%20Element%20Appears%20at%20Least%20K%20Times.java
 class Solution {
     // stop and count at exact k times
     public long countSubarrays(int[] nums, int k) {

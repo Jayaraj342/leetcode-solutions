@@ -6,7 +6,7 @@ class Solution {
             if (nums[i] == 0) {
                 swap(nums, zeroIndex, i);
                 zeroIndex++;
-                i++;
+                i++;// we increment i, cause we're sure it was 1 the 0 is swapped with
             } else if (nums[i] == 2) {
                 swap(nums, twoIndex, i);
                 twoIndex--;

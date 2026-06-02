@@ -1,4 +1,5 @@
 // Segment tree
+// Sum in a range - with update & query
 class SegmentTree {
     int[] tree;
     int n;
@@ -53,9 +54,10 @@ class SegmentTree {
         int[] arr = {1, 3, 5, 7, 9, 11};
         SegmentTree st = new SegmentTree(arr);
 
+        // [1, 3, 5, 7, 9, 11]
         System.out.println(st.query(1, 3)); // sum from index 1 to 3 → 15
         st.update(1, 10); // update index 1 to value 10
+        // [1, 10, 5, 7, 9, 11]
         System.out.println(st.query(1, 3)); // now sum = 22
-
     }
 }

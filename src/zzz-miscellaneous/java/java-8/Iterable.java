@@ -37,3 +37,14 @@ class Node implements Iterable<Node> {
         }
     }
 }
+
+// Example wrt ArrayList
+class Solution {
+    public static void main(String[] args) {
+        List<Integer> list = List.of(1, 2, 3, 4);
+        Iterator<Integer> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+    }
+}

@@ -19,7 +19,7 @@ class Solution {
                 j++;
             }
             int len = j - i;// length - 1
-            for (int end = 1; end < len; ++end)
+            for (int end = 1; end < len; end++)
                 if (((long) end * A[i]) % k == 0) {
                     res -= (len - end);
                 }

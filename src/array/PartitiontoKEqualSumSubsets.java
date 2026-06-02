@@ -1,4 +1,57 @@
-// O(k^n)
+// O(n * 2^n) - doesn't depend on k
+class Solution {
+    public boolean canPartitionKSubsets(int[] nums, int k) {
+        int sum = 0;
+        for (int num : nums) sum += num;
+        if (sum % k != 0) return false;
+
+        int target = sum / k;
+        int n = nums.length;
+        // Sort descending to process larger numbers first (crucial for pruning)
+        Arrays.sort(nums);
+        reverse(nums);
+
+        // Memoize based on the bitmask of used elements
+        Boolean[] memo = new Boolean[1 << n];
+        return backtrack(nums, k, 0, 0, 0, target, memo);
+    }
+
+    private boolean backtrack(int[] nums, int k, int currentSum, int start, int mask, int target, Boolean[] memo) {
+        // Base case: successfully filled k-1 buckets (last bucket must be valid)
+        if (k == 1) return true;
+
+        // If this exact configuration of elements has been tried before
+        if (memo[mask] != null) return memo[mask];
+
+        // If current bucket is full, move to the next one, resetting start to 0
+        if (currentSum == target) {
+            return memo[mask] = backtrack(nums, k - 1, 0, 0, mask, target, memo);
+        }
+
+        for (int i = start; i < nums.length; i++) {
+            // Check if element is unused and fits in current bucket
+            if (((mask >> i) & 1) == 0 && currentSum + nums[i] <= target) {
+                // Set the i-th bit to mark it as used
+                if (backtrack(nums, k, currentSum + nums[i], i + 1, mask | (1 << i), target, memo)) {
+                    return memo[mask] = true;
+                }
+            }
+        }
+
+        return memo[mask] = false;
+    }
+
+    private void reverse(int[] nums) {
+        int i = 0, j = nums.length - 1;
+        while (i < j) {
+            int temp = nums[i];
+            nums[i++] = nums[j];
+            nums[j--] = temp;
+        }
+    }
+}
+
+// O(k^n) - won't timeout..
 class Solution {
     public boolean canPartitionKSubsets(int[] nums, int k) {
         int sum = 0;

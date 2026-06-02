@@ -1,3 +1,4 @@
+// n^2, n^2
 class Solution {
     // note : Given are distinct positive integers
     public int tupleSameProduct(int[] nums) {

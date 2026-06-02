@@ -15,7 +15,7 @@ class Solution {
                 sum -= nums[lo];
                 lo++;
             }
-            res += (hi - lo + 1);
+            res += (hi - lo + 1); // no. subarrays starting from lo
         }
 
         return res;

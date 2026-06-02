@@ -12,10 +12,10 @@ class Solution {
             }
 
             pre += num;
-            Map<Long, Long> sumByCount = map.computeIfAbsent(num, k -> new HashMap<>());
-            sumByCount.put(pre, sumByCount.getOrDefault(pre, 0L) + 1L);
+            Map<Long, Long> sumByCount = map.computeIfAbsent(num, k -> new HashMap<>());// Store num as key, not prefix
+            sumByCount.put(pre, sumByCount.getOrDefault(pre, 0L) + 1L);// For a given num, store prefix as key after adding the num
 
-            if (i > 0 && num == 0 && capacity[i - 1] == 0) res--;
+            if (i > 0 && num == 0 && capacity[i - 1] == 0) res--;// [-4,4,0,0,0,-8,-4] => For a pair of continous zeros, 1 extra cnt will be added - not cnt extras..
         }
 
         return res;
