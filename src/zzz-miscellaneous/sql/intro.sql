@@ -1,8 +1,7 @@
---https://www.edureka.co/blog/interview-questions/sql-query-interview-questions
---https://www.w3schools.com/mysql/trymysql.asp?filename=trysql_select_all
---https://onecompiler.com/mysql/3ygckqt52
---https://www.edureka.co/blog/sql-joins-types
---https://www.studytonight.com/dbms/database-normalization.php
+-- https://www.edureka.co/blog/interview-questions/sql-query-interview-questions
+-- https://www.w3schools.com/mysql/trymysql.asp?filename=trysql_select_all
+-- https://onecompiler.com/mysql/3ygckqt52
+-- https://www.edureka.co/blog/sql-joins-types
 
 -- create only structure
 SELECT *
@@ -17,30 +16,30 @@ SELECT *
 INTO NewTable
 FROM TableStructureIWishToClone;
 
---first 2max prices
---0 is offset, 2 number of rows
+-- first 2max prices
+-- 0 is offset, 2 number of rows
 Select * FROM Products
 order by price desc limit 0,2
 
---If only 4record are available-gets 4
+-- If only 4record are available-gets 4
 select * from Products
 where SupplierID = 2
 order by price desc
 limit 0, 5
 
---first 2 max prices-without using limit
+-- first 2 max prices-without using limit
 select * from Products p1
 where 2 > (
 select count(distinct(price)) from Products p2 where p2.price > p1.price
 )
 order by price desc
 
--- >2 same columns with same group of 2 columns
-select * from Products p1 join
+-- find products that belong to (SupplierID, CategoryID) combinations appearing more than once
+select p1.* from Products p1 join
 (
-SELECT * FROM Products
-group by SupplierID, CategoryID
-having count(*) > 1
+    SELECT SupplierID, CategoryID FROM Products
+    group by SupplierID, CategoryID
+    having count(*) > 1
 ) p2
 on p1.SupplierID = p2.SupplierID and p1.CategoryID = p2.CategoryID;
 
@@ -90,6 +89,27 @@ where (name, price) IN (
  ) temp2 group by name
 );
 
+-- using window function
+WITH all_products AS (
+    SELECT name, price, 'flipkart' AS website
+    FROM FLIPKART
+
+    UNION ALL
+
+    SELECT name, price, 'amazon' AS website
+    FROM AMAZON
+)
+SELECT name, price, website
+FROM (
+         SELECT *,
+                ROW_NUMBER() OVER (
+               PARTITION BY name
+               ORDER BY price
+           ) AS rn
+         FROM all_products
+     ) t
+WHERE rn = 1;
+
 -- left join
 SELECT Categories.CategoryName, sum(price)  FROM Products left join Categories on Categories.CategoryID = Products.CategoryID
 group by Categories.CategoryName
@@ -101,11 +121,19 @@ SELECT CURTIME(); -- 08:03:09
 SELECT SYSDATE(); -- 2022-09-18 08:02:47
 
 -- odd rows from table without using ID
-CREATE TABLE EMPLOYEE (
-  empId INTEGER PRIMARY KEY,
-  name TEXT NOT NULL,
-  dept TEXT NOT NULL
-);
+SELECT *
+FROM your_table_name
+WHERE id % 2 <> 0;
+
+-- using window function
+sqlWITH RankedRows AS (
+    SELECT *,
+           ROW_NUMBER() OVER (ORDER BY dynamic_sort_column) AS row_num
+    FROM your_table_name
+)
+SELECT *
+FROM RankedRows
+WHERE row_num % 2 <> 0;
 
 -- insert
 INSERT INTO EMPLOYEE VALUES (0001, 'Clark', 'Sales');

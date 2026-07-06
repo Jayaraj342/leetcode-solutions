@@ -3,7 +3,7 @@ class Solution {
         int used = 0, j = 0, res = 0;
         for (int i = 0; i < nums.length; ++i) {
             while ((used & nums[i]) != 0) {
-                used ^= nums[j++];
+                used ^= nums[j++];// OR => mask & ~nums[j++];
             }
             used |= nums[i];
             res = Math.max(res, i - j + 1);

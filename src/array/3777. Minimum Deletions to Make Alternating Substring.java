@@ -1,12 +1,15 @@
 // nlog(n), n
+// ABAAAB => Deletions required to make alternating == no. equal pairs
 class Solution {
     public int[] minDeletions(String s, int[][] queries) {
-        int n = s.length();
         char[] arr = s.toCharArray();
-
+        // ABAAAB - 0110
+        int n = arr.length;
         int[] nums = new int[n];
         for (int i = 1; i < n; i++) {
-            nums[i] = (arr[i] == arr[i - 1]) ? 1 : 0;
+            if (arr[i] == arr[i - 1]) {
+                nums[i] = 1;
+            }
         }
 
         SegmentTree st = new SegmentTree(nums);
@@ -37,7 +40,7 @@ class Solution {
             }
         }
 
-        return res.stream().mapToInt(i -> i).toArray();
+        return res.stream().mapToInt(Integer::intValue).toArray();
     }
 
     static class SegmentTree {
@@ -47,50 +50,55 @@ class Solution {
         SegmentTree(int[] nums) {
             n = nums.length;
             tree = new int[4 * n];
+
             build(nums, 0, 0, n - 1);
         }
 
-        void build(int[] nums, int idx, int lo, int hi) {
+        private void build(int[] nums, int root, int lo, int hi) {
             if (lo == hi) {
-                tree[idx] = nums[lo];
-                return;
-            }
-
-            int mid = (lo + hi) / 2;
-            build(nums, 2 * idx + 1, lo, mid);
-            build(nums, 2 * idx + 2, mid + 1, hi);
-            tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
-        }
-
-        void update(int pos, int val) {
-            update(0, 0, n - 1, pos, val);
-        }
-
-        void update(int idx, int lo, int hi, int pos, int val) {
-            if (lo == hi) {
-                tree[idx] = val;
-                return;
-            }
-
-            int mid = (lo + hi) / 2;
-            if (pos <= mid) {
-                update(2 * idx + 1, lo, mid, pos, val);
+                tree[root] = nums[lo];
             } else {
-                update(2 * idx + 2, mid + 1, hi, pos, val);
-            }
+                int mid = lo + (hi - lo) / 2;
+                build(nums, 2 * root + 1, lo, mid);
+                build(nums, 2 * root + 2, mid + 1, hi);
 
-            tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
+                tree[root] = tree[2 * root + 1] + tree[2 * root + 2];
+            }
         }
 
-        int query(int i, int j) {
+        public void update(int idx, int val) {
+            update(0, 0, n - 1, idx, val);
+        }
+
+        private void update(int root, int lo, int hi, int idx, int val) {
+            if (lo == hi) {
+                tree[root] = val;
+            } else {
+                int mid = lo + (hi - lo) / 2;
+                if (idx <= mid) {
+                    update(2 * root + 1, lo, mid, idx, val);
+                } else {
+                    update(2 * root + 2, mid + 1, hi, idx, val);
+                }
+
+                tree[root] = tree[2 * root + 1] + tree[2 * root + 2];
+            }
+        }
+
+        public int query(int i, int j) {
             return query(0, 0, n - 1, i, j);
         }
 
-        int query(int idx, int lo, int hi, int i, int j) {
-            if (i > hi || j < lo) return 0;
-            if (i <= lo && hi <= j) return tree[idx];
-            int mid = (lo + hi) / 2;
-            return query(2 * idx + 1, lo, mid, i, j) + query(2 * idx + 2, mid + 1, hi, i, j);
+        private int query(int root, int lo, int hi, int i, int j) {
+            if (i > hi || j < lo) {
+                return 0;
+            }
+            if (i <= lo && j >= hi) {
+                return tree[root];
+            }
+
+            int mid = lo + (hi - lo) / 2;
+            return query(2 * root + 1, lo, mid, i, j) + query(2 * root + 2, mid + 1, hi, i, j);
         }
     }
 }

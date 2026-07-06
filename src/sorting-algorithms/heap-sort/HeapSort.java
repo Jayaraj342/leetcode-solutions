@@ -2,7 +2,7 @@
 class HeapSort {
     private void heapSort(int[] arr, int n) {
         for (int i = n / 2 - 1; i >= 0; i--) {
-            heapify(arr, n, i);
+            heapify(arr, n, i);// satisfy the max-heap property: Every parent is greater than or equal to its children
         }
 
         for (int i = n - 1; i > 0; i--) {
@@ -43,4 +43,4 @@ class HeapSort {
     }
 }
 
-//Time complexity of heapify is O(Logn). Overall time complexity of Heap Sort is O(nLogn)
+//Time complexity of heapify is O(logn). Overall time complexity of Heap Sort is O(n.logn)

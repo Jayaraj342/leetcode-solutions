@@ -1,21 +1,20 @@
 class Solution {
     public int countElements(int[] nums, int k) {
-        if (k == 0) return nums.length;
-
-        Arrays.sort(nums);
         int n = nums.length;
 
-        // k-th largest element
-        int threshold = nums[n - k];
+        if (k == 0) return n;
+        if (k >= n) return 0;
 
-        int res = 0;
+        Arrays.sort(nums);
+
+        // kth largest element
+        int threshold = nums[n - k];
+        int cnt = 0;
         for (int num : nums) {
-            if (num < threshold) {
-                res++;
-            }
+            if (num < threshold) cnt++;
         }
 
-        return res;
+        return cnt;
     }
 }
 
