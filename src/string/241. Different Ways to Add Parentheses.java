@@ -1,4 +1,4 @@
-// n Cn
+// O(n * Cn) => simplified to O(n * 2^n)
 // catalan number
 class Solution {
 

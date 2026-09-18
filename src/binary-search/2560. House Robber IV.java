@@ -1,8 +1,9 @@
 class Solution {
     public int minCapability(int[] nums, int k) {
-        int lo = 1, hi = Integer.MIN_VALUE;
+        int lo = nums[0], hi = nums[0];
 
         for (int num : nums) {
+            lo = Math.min(lo, num);
             hi = Math.max(hi, num);
         }
 
@@ -22,7 +23,6 @@ class Solution {
 
     private boolean canRobK(int[] nums, int k, int maxVal) {
         int count = 0, i = 0;
-
         while (i < nums.length) {
             if (nums[i] <= maxVal) {
                 count++;

@@ -1,3 +1,4 @@
+// https://www.youtube.com/watch?v=V5-7GzOfADQ
 class KMPStringMatching {
     public void searchPattern(String pat, String txt) {
         int m = pat.length();

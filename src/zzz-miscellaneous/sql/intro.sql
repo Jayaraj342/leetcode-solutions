@@ -126,7 +126,7 @@ FROM your_table_name
 WHERE id % 2 <> 0;
 
 -- using window function
-sqlWITH RankedRows AS (
+WITH RankedRows AS (
     SELECT *,
            ROW_NUMBER() OVER (ORDER BY dynamic_sort_column) AS row_num
     FROM your_table_name
@@ -162,3 +162,14 @@ order by CategoryID asc, Price desc;
 SELECT ProductID, ProductName, CategoryID, Price FROM Products where (CategoryID, Price) IN
 (SELECT CategoryID, max(Price) FROM Products group by CategoryID)
 order by CategoryID;
+-- same using join
+SELECT p.ProductID, p.ProductName, p.CategoryID, p.Price
+FROM Products p
+         JOIN (
+    SELECT CategoryID, MAX(Price) AS Price
+    FROM Products
+    GROUP BY CategoryID
+) m
+              ON p.CategoryID = m.CategoryID
+                  AND p.Price = m.Price
+ORDER BY p.CategoryID;

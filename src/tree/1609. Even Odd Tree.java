@@ -17,34 +17,43 @@ class TreeNode {
     }
 }
 
-
 class Solution {
     public boolean isEvenOddTree(TreeNode root) {
         Queue<TreeNode> queue = new LinkedList<>();
         queue.add(root);
-        int level = 1;
+
+        boolean evenLevel = true; // root is level 0
         while (!queue.isEmpty()) {
-            int n = queue.size(), lastVal = -1;
+            int n = queue.size();
+            int prev = evenLevel ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+
             for (int i = 0; i < n; i++) {
                 TreeNode curr = queue.remove();
+
+                // Even level: values must be odd and strictly increasing
+                if (evenLevel) {
+                    if (curr.val % 2 == 0 || curr.val <= prev) {
+                        return false;
+                    }
+                }
+                // Odd level: values must be even and strictly decreasing
+                else {
+                    if (curr.val % 2 != 0 || curr.val >= prev) {
+                        return false;
+                    }
+                }
+
+                prev = curr.val;
+
                 if (curr.left != null) {
                     queue.add(curr.left);
                 }
                 if (curr.right != null) {
                     queue.add(curr.right);
                 }
-                if (level % 2 != 0) { // odd
-                    if (curr.val % 2 == 0 || lastVal != -1 && curr.val <= lastVal) {
-                        return false;
-                    }
-                } else {
-                    if (curr.val % 2 != 0 || lastVal != -1 && curr.val >= lastVal) {
-                        return false;
-                    }
-                }
-                lastVal = curr.val;
             }
-            level++;
+
+            evenLevel = !evenLevel;
         }
 
         return true;

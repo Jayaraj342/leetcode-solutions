@@ -1,8 +1,9 @@
 // https://www.youtube.com/watch?v=HqPJF2L5h9U
+// n.log(n)
 class HeapSort {
     private void heapSort(int[] arr, int n) {
         for (int i = n / 2 - 1; i >= 0; i--) {
-            heapify(arr, n, i);// satisfy the max-heap property: Every parent is greater than or equal to its children
+            heapify(arr, n, i);// satisfy the max-heap property: Every parent is greater than or equal to its children - O(n) => n/8 + n/4 + ...
         }
 
         for (int i = n - 1; i > 0; i--) {

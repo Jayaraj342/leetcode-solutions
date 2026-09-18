@@ -1,23 +1,22 @@
 // O(log(n-k) + k)
 class Solution {
     public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        int l = 0, r = arr.length - k;
-
-        while (l < r) {
-            int mid = l + (r - l) / 2;
+        int lo = 0, hi = arr.length - k;
+        while (lo < hi) {
+            int mid = lo + (hi - lo) / 2;
 
             int leftDiff = x - arr[mid];
             int rightDiff = arr[mid + k] - x;
-            
+
             if (leftDiff > rightDiff) {
-                l = mid + 1;
+                lo = mid + 1;
             } else {
-                r = mid;
+                hi = mid;
             }
         }
 
         List<Integer> result = new ArrayList<>();
-        for (int i = l; i < l + k; i++) {
+        for (int i = lo; i < lo + k; i++) {
             result.add(arr[i]);
         }
 

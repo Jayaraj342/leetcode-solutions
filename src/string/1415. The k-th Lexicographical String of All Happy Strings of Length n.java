@@ -1,7 +1,7 @@
-
 // Input: n = 3, k = 9
 // Output: "cab"
 // ["aba", "abc", "aca", "acb", "bab", "bac", "bca", "bcb", "cab", "cac", "cba", "cbc"]
+//   1      2      3      4      5      6      7      8      9      10     11     12
 class Solution {
     StringBuilder sb = new StringBuilder();
 
@@ -14,18 +14,18 @@ class Solution {
         if(n == 0) {
             return;
         }
-        int combPerChar = (int) Math.pow(2, n - 1);
-        int window = combPerChar;
+        int permPerChar = (int) Math.pow(2, n - 1);
+        int window = permPerChar;
         for (char c : "abc".toCharArray()) {
             if(c == prev) {
                 continue;
             }
             if (k <= window) {
                 sb.append(c);
-                build(n - 1, k - (window - combPerChar), c);// newK -> start of next window
+                build(n - 1, k - (window - permPerChar), c);// newK -> start of next window
                 return;
             }
-            window += combPerChar;
+            window += permPerChar;
         }
     }
 }

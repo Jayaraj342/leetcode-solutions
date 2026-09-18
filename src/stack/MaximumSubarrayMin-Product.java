@@ -1,3 +1,42 @@
+// Better - Just get min to left and right & calc the prefix sum
+
+class Solution {
+    public int maxSumMinProduct(int[] nums) {
+        int n = nums.length;
+
+        long[] prefix = new long[n + 1];
+        for (int i = 0; i < n; i++) {
+            prefix[i + 1] = prefix[i] + nums[i];
+        }
+
+        Stack<Integer> stack = new Stack<>();
+        long max = 0;
+        for (int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && nums[stack.peek()] > nums[i]) {
+                int idx = stack.pop();
+
+                int left = stack.isEmpty() ? 0 : stack.peek() + 1;
+                long sum = prefix[i] - prefix[left];
+
+                max = Math.max(max, (long) nums[idx] * sum);
+            }
+
+            stack.push(i);
+        }
+
+        while (!stack.isEmpty()) {
+            int idx = stack.pop();
+
+            int left = stack.isEmpty() ? 0 : stack.peek() + 1;
+            long sum = prefix[n] - prefix[left];
+
+            max = Math.max(max, (long) nums[idx] * sum);
+        }
+
+        return (int) (max % 1000_000_007);
+    }
+}
+
 class Solution {
     public int maxSumMinProduct(int[] nums) {
         List<Integer> prefixSums = new ArrayList<>();

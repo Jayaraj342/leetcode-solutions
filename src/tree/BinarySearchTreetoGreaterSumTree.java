@@ -25,8 +25,10 @@ class Solution {
         }
 
         bstToGst(root.right);
-        root.val = root.val + curr;
-        curr = root.val;
+
+        curr += root.val;
+        root.val = curr;
+
         bstToGst(root.left);
 
         return root;

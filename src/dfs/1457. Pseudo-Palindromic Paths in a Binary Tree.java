@@ -19,6 +19,28 @@ class TreeNode {
 }
 
 class Solution {
+    public int pseudoPalindromicPaths(TreeNode root) {
+        return dfs(root, 0);
+    }
+
+    private int dfs(TreeNode root, int mask) {
+        if (root == null) {
+            return 0;
+        }
+
+        // Toggle the bit for this digit
+        mask ^= (1 << root.val);
+
+        // Leaf: at most one digit can have odd frequency
+        if (root.left == null && root.right == null) {
+            return (mask & (mask - 1)) == 0 ? 1 : 0;
+        }
+
+        return dfs(root.left, mask) + dfs(root.right, mask);
+    }
+}
+
+class Solution {
     int odd;
     int[] cnt;
 

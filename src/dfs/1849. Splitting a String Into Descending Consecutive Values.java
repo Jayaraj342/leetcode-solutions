@@ -1,5 +1,4 @@
-// n * 2^n
-// But generally there would be pruning
+// n^2
 class Solution {
     public boolean splitString(String s) {
         int n = s.length();

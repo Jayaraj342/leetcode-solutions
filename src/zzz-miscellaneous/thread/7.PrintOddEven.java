@@ -82,7 +82,7 @@ class TwoThreads {
 // --------------------------------------------------------------------------------------------------------------------
 
 class Print {
-    int count = 1; // volatile is not required as its ot a global variable from different class that is shared
+    int count = 1; // volatile is not required as its not a global variable from different class that is shared
     int max = 20;
 
     public synchronized void printOdd() throws InterruptedException {

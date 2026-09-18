@@ -25,36 +25,42 @@ class Solution {
     }
 }
 
+// Manacher's algorithm - https://www.youtube.com/watch?v=ei7qghJEj4Y
 class Solution {
     public String longestPalindrome(String s) {
-        int longest = 0;
-        int idx = 0;
+        String transformed = "#" + String.join("#", s.split("")) + "#";
+        int n = transformed.length();
 
-        int n = s.length();
+        int[] radius = new int[n];
+
+        int center = 0, right = 0;
+        int bestCenter = 0, bestRadius = 0;
         for (int i = 0; i < n; i++) {
-            int l = i, r = i;
-            while (l >= 0 && r < n && s.charAt(l) == s.charAt(r)) {
-                if (r - l + 1 > longest) {
-                    longest = r - l + 1;
-                    idx = l;
-                }
-                l--;
-                r++;
+            int mirror = 2 * center - i;
+
+            if (i < right) {
+                radius[i] = Math.min(right - i, radius[mirror]);
             }
 
-            l = i;
-            r = i + 1;
-            while (l >= 0 && r < n && s.charAt(l) == s.charAt(r)) {
-                if (r - l + 1 > longest) {
-                    longest = r - l + 1;
-                    idx = l;
-                }
-                l--;
-                r++;
+            while (i - radius[i] - 1 >= 0 && i + radius[i] + 1 < n
+                    && transformed.charAt(i - radius[i] - 1) == transformed.charAt(i + radius[i] + 1)
+            ) {
+                radius[i]++;
+            }
+
+            if (i + radius[i] > right) {
+                center = i;
+                right = i + radius[i];
+            }
+
+            if (radius[i] > bestRadius) {
+                bestRadius = radius[i];
+                bestCenter = i;
             }
         }
 
-        return s.substring(idx, idx + longest);
+        int start = (bestCenter - bestRadius) / 2;
+        return s.substring(start, start + bestRadius);
     }
 }
 

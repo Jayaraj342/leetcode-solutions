@@ -31,7 +31,7 @@ public class MonitorTest {
         SharedResource obj = new SharedResource();
 
         Thread t1 = new Thread(() -> obj.synchronizedMethod(), "T1");
-        Thread t2 = new Thread(() -> obj.synchronizedBlock(), "T2");
+        Thread t2 = new Thread(() -> obj.synchronizedBlock(), "T2");// Most probably t2 will be blocked (sometimes t1), as both have lock on 'this' object
         Thread t3 = new Thread(() -> obj.normalMethod(), "T3");
 
         t1.start();
@@ -39,6 +39,10 @@ public class MonitorTest {
         t3.start();
     }
 }
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------
+// if a method is static synchronized, then no two threads can execute it at the same time, even if they are working with different instances of the class
+// static synchronized method locks on the class-level monitor, not on this
 
 class SharedResource {
     public static synchronized void staticMethod() {
@@ -51,16 +55,13 @@ class SharedResource {
     }
 }
 
-// if a method is static synchronized, then no two threads can execute it at the same time, even if they are working with different instances of the class
-// static synchronized method locks on the class-level monitor, not on this
-
 class StaticSyncExample {
     public static void main(String[] args) {
         SharedResource obj1 = new SharedResource();
         SharedResource obj2 = new SharedResource();
 
         Thread t1 = new Thread(() -> obj1.staticMethod(), "T1");
-        Thread t2 = new Thread(() -> obj2.staticMethod(), "T2");
+        Thread t2 = new Thread(() -> obj2.staticMethod(), "T2");// Most probably t2 will be blocked (sometimes t1), as both have lock on 'StaticSyncExample.class'
 
         t1.start();
         t2.start();

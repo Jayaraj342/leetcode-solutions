@@ -18,50 +18,27 @@ class TreeNode {
 }
 
 class Solution {
-    public void flatten(TreeNode root) {
-        Queue<TreeNode> queue = new ArrayDeque<>();
-        dfs(root, queue);
+    TreeNode prev;
 
-        TreeNode prev = null, curr;
-        while (!queue.isEmpty()) {
-            curr = queue.remove();
-            if (prev != null) {
-                prev.right = curr;
-                prev.left = null;
-            }
-            prev = curr;
-        }
+    public void flatten(TreeNode root) {
+        prev = new TreeNode(-1);
+
+        preOrder(root);
     }
 
-    private void dfs(TreeNode node, Queue<TreeNode> queue) {
+    public void preOrder(TreeNode node) {
         if (node == null) {
             return;
         }
-        queue.add(node);
-        dfs(node.left, queue);
-        dfs(node.right, queue);
-    }
-}
 
-class Solution {
-    public void flatten(TreeNode root) {
-        if (root == null) {
-            return;
-        }
+        TreeNode left = node.left;
+        TreeNode right = node.right;
 
-        TreeNode left = root.left;
-        TreeNode right = root.right;
-        root.left = null;
+        prev.right = node;
+        prev = prev.right;
+        prev.left = null;
 
-        flatten(left);
-        flatten(right);
-
-        root.right = left;
-
-        TreeNode temp = root;
-        while (temp.right != null) {
-            temp = temp.right;
-        }
-        temp.right = right;
+        preOrder(left);
+        preOrder(right);
     }
 }

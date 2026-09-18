@@ -1,3 +1,4 @@
+// n + Q
 class Solution {
     public boolean[] pathExistenceQueries(int n, int[] nums, int maxDiff, int[][] queries) {
         int[] group = new int[n];
@@ -23,6 +24,7 @@ class Solution {
     }
 }
 
+// n + Q * log(cuts)
 class Solution {
     public boolean[] pathExistenceQueries(int n, int[] nums, int maxDiff, int[][] queries) {
         // Identify discontinuities based on maxDiff
@@ -56,20 +58,20 @@ class Solution {
     }
 }
 
-// timeout
+// (n + Q) * InvAckermannFunction which is <= 5
 class Solution {
     public boolean[] pathExistenceQueries(int n, int[] nums, int maxDiff, int[][] queries) {
         // [0, 1, 2, 3]
-        // find till which idx does path exist - union all in the exist range -> (start, end)
+        // Whenever adjacent elements differ by more than maxDiff, the graph splits into a new component
         int[] parent = new int[n];
         for (int i = 0; i < n; i++) {
             parent[i] = i;
         }
 
-        for (int i = 0; i < n; i++) {
-            int j = getEnd(i, nums, maxDiff);
-            for (int k = i; k <= j; k++) {
-                union(i, j, parent);
+        for (int i = 1; i < n; i++) {
+            int diff = nums[i] - nums[i - 1];
+            if (diff <= maxDiff) {
+                union(i, i - 1, parent);
             }
         }
 
@@ -78,23 +80,6 @@ class Solution {
         for (int i = 0; i < m; i++) {
             int u = queries[i][0], v = queries[i][1];
             res[i] = find(u, parent) == find(v, parent);
-        }
-
-        return res;
-    }
-
-    private int getEnd(int start, int[] nums, int maxDiff) {
-        int lo = start, hi = nums.length - 1;
-        int res = start;
-        while (lo <= hi) {
-            int mid = lo + (hi - lo) / 2;
-            int diff = Math.abs(nums[start] - nums[mid]);
-            if (diff <= maxDiff) {
-                res = mid;
-                lo = mid + 1;
-            } else {
-                hi = mid - 1;
-            }
         }
 
         return res;

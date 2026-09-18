@@ -12,6 +12,50 @@ class TreeNode {
 }
 
 class Solution {
+    public TreeNode recoverFromPreorder(String traversal) {
+        Stack<TreeNode> stack = new Stack<>();
+        int i = 0;
+
+        while (i < traversal.length()) {
+            // Find depth
+            int depth = 0;
+            while (i < traversal.length() && traversal.charAt(i) == '-') {
+                depth++;
+                i++;
+            }
+
+            // Find value
+            int val = 0;
+            while (i < traversal.length() && traversal.charAt(i) != '-') {
+                val = val * 10 + (traversal.charAt(i) - '0');
+                i++;
+            }
+
+            TreeNode node = new TreeNode(val);
+
+            // Move to parent at depth - 1
+            while (stack.size() > depth) {
+                stack.pop();
+            }
+
+            if (!stack.isEmpty()) {
+                TreeNode parent = stack.peek();
+
+                if (parent.left == null) {
+                    parent.left = node;
+                } else {
+                    parent.right = node;
+                }
+            }
+
+            stack.push(node);
+        }
+
+        return stack.get(0); // root
+    }
+}
+
+class Solution {
     private int idx;
 
     public TreeNode recoverFromPreorder(String traversal) {

@@ -9,6 +9,7 @@ class Solution {
     }
 }
 
+// Too much..
 class Solution {
     public int maxDistinct(String s) {
         int n = s.length();

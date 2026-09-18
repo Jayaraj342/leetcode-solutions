@@ -35,3 +35,44 @@ class Solution {
         return true;
     }
 }
+
+class Solution {
+    int[] state;
+
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        int n = graph.length;
+        state = new int[n];
+
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (isSafe(i, graph)) {
+                result.add(i);
+            }
+        }
+
+        return result;
+    }
+
+    private boolean isSafe(int node, int[][] graph) {
+        // Already processed
+        if (state[node] == 2) return true;
+        if (state[node] == 3) return false;
+
+        // Cycle detected
+        if (state[node] == 1) return false;
+
+        // Mark as currently visiting
+        state[node] = 1;
+
+        for (int neighbor : graph[node]) {
+            if (!isSafe(neighbor, graph)) {
+                state[node] = 3;
+                return false;
+            }
+        }
+
+        // All neighbors are safe
+        state[node] = 2;
+        return true;
+    }
+}

@@ -33,6 +33,55 @@ class Solution {
     }
 }
 
+// SC : O(1)
+class Solution {
+    public boolean canBeValid(String s, String locked) {
+        int length = s.length();
+
+        // If length of string is odd, return false.
+        if (length % 2 == 1) {
+            return false;
+        }
+
+        int open = 0, wildcard = 0;
+        // Iterate through the string to handle '(' and ')'.
+        for (int i = 0; i < length; i++) {
+            if (locked.charAt(i) == '0') {
+                wildcard++;
+            } else if (s.charAt(i) == '(') {
+                open++;
+            } else if (s.charAt(i) == ')') {
+                if (open > 0) {
+                    open--;
+                } else if (wildcard > 0) {
+                    wildcard--;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        // Match remaining open brackets with wildcard characters.
+        int close = 0;
+        for (int i = length - 1; i >= 0; i--) {
+            if (locked.charAt(i) == '0') {
+                close++;
+                wildcard--;
+            } else if (s.charAt(i) == '(') {
+                close--;
+                open--;
+            } else if (s.charAt(i) == ')') {
+                close++;
+            }
+            if (close < 0) {
+                return false;
+            }
+        }
+
+        return open <= 0;
+    }
+}
+
 // n^2 - won't pass
 class Solution {
     Map<String, Boolean> memo;

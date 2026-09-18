@@ -11,7 +11,6 @@ class Solution {
 
         int left = 0, consonantCount = 0;
         long res = 0;
-
         for (int right = 0; right < n; right++) {
             char currChar = word.charAt(right);
 

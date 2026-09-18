@@ -39,6 +39,7 @@ class Solution {
 }
 
 // 3^4 => 81, 81
+// Should not be memoized..
 class Solution {
     private List<String> result = new ArrayList<>();
 
